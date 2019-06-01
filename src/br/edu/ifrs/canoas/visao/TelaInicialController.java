@@ -5,6 +5,9 @@
  */
 package br.edu.ifrs.canoas.visao;
 
+import br.com.parg.viacep.ViaCEP;
+import br.com.parg.viacep.ViaCEPEvents;
+import br.com.parg.viacep.ViaCEPException;
 import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Telefone;
@@ -16,13 +19,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author William José
  * @version 1.0
  */
-public class TelaInicialController implements Initializable {
+public class TelaInicialController implements Initializable , ViaCEPEvents {
     
     @FXML
     private TextField matricula;
@@ -58,12 +63,14 @@ public class TelaInicialController implements Initializable {
     private TextField telTipo;
     @FXML
     private TextField telNumero;
+    @FXML
+    private TextField fomacao;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-
+        
     @FXML
     private void cadastrarProfessor(ActionEvent event) {
     
@@ -71,11 +78,13 @@ public class TelaInicialController implements Initializable {
         p.setMatricula(Long.parseLong(matricula.getText()));
         p.setNome(nome.getText());
         p.setRg(Long.parseLong(rg.getText()));
+        p.setFormacao(fomacao.getText());
         p.setCpf(cpf.getText());
         p.setEmail(email.getText());
         p.setSenha(senha.getText());
-        p.setAcesso(0);
+        p.setAcesso(1);
         Endereco e = new Endereco();
+        e.setIdEndereco(p.getMatricula());
         e.setCep(cep.getText());
         e.setRua(rua.getText());
         e.setNumero(Integer.parseInt(numero.getText()));
@@ -83,14 +92,41 @@ public class TelaInicialController implements Initializable {
         e.setCidade(cidade.getText());
         e.setEstado(estado.getText());
         Telefone t = new Telefone();
+        t.setIdTelefone(p.getMatricula());
         t.setTipo(telTipo.getText());
         t.setNumero(telNumero.getText());
         p.setEndereco(e);
         p.setTelefone(t);
-        
-        mensagem.setText(p.toString());
-        
+        if(p.insert() == true){
+            mensagem.setText("Professor Cadastrado");
+        }
     
+    }
+
+    @Override
+    public void onCEPSuccess(ViaCEP cepp) {
+        cep.setText(cepp.getCep());
+        rua.setText(cepp.getLogradouro());
+        bairro.setText(cepp.getBairro());
+        cidade.setText(cepp.getLocalidade());
+        estado.setText(cepp.getUf());
+    }
+
+    @Override
+    public void onCEPError(String cep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @FXML
+    private void endereco(KeyEvent event) {
+        if(event.getCode() == event.getCode().ENTER || event.getCode() == event.getCode().TAB){
+            ViaCEP viaCEP = new ViaCEP(this);
+            try {
+                viaCEP.buscar(cep.getText());
+            } catch (ViaCEPException vce) {
+                System.out.println("Erro na classe: "+vce);
+            }
+        }
     }
     
 }

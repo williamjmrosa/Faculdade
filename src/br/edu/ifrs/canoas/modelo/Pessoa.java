@@ -9,7 +9,7 @@ package br.edu.ifrs.canoas.modelo;
  *
  * @author William José
  */
-public class Pessoa {
+public abstract class Pessoa {
     private Long matricula;
     private String nome;
     private Long rg;

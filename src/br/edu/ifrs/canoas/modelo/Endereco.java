@@ -94,24 +94,33 @@ public class Endereco {
         this.cep = cep;
     }
 
-    public Long insert(){
+    public boolean insert(){
         Conexao c = new Conexao();
         Connection con = c.getConexao();
-        String sql = "";
+        String sql = "INSERT INTO FacEndereco(idEndereco,rua,cidade,bairro,estado,numero,cep)"
+                +"VALUES(?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, idEndereco);
+            ps.setString(2, rua);
+            ps.setString(3, cidade);
+            ps.setString(4, bairro);
+            ps.setString(5, estado);
+            ps.setInt(6, numero);
+            ps.setString(7, cep);
+            ps.executeUpdate();
+            /*ps.executeUpdate(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet rs = ps.getGeneratedKeys();
             if(rs != null && rs.next()){
                 idEndereco = rs.getLong(1);
-            }
-            return idEndereco;
+            }*/
+            
         } catch (SQLException e) {
             System.out.println("Deu erro no endereço");
             e.printStackTrace();
-            return 0L;
+            return false;
         }
-        
+        return true;
     }
     
     @Override
