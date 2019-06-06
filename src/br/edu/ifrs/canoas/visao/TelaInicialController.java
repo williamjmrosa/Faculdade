@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javax.swing.JOptionPane;
@@ -65,6 +66,10 @@ public class TelaInicialController implements Initializable , ViaCEPEvents {
     private TextField telNumero;
     @FXML
     private TextField fomacao;
+    @FXML
+    private TextField nomeCurso;
+    @FXML
+    private TextArea descricaoCurso;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -127,6 +132,10 @@ public class TelaInicialController implements Initializable , ViaCEPEvents {
                 System.out.println("Erro na classe: "+vce);
             }
         }
+    }
+
+    @FXML
+    private void cadastrarCurso(ActionEvent event) {
     }
     
 }
