@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="731.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.canoas.visao.TelaInicialController">
+<AnchorPane id="AnchorPane" prefHeight="668.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.canoas.visao.TelaInicialController">
     <children>
-      <Pane layoutX="14.0" layoutY="43.0" prefHeight="676.0" prefWidth="511.0">
+      <Pane layoutX="14.0" layoutY="8.0" prefHeight="682.0" prefWidth="511.0">
          <children>
               <Button fx:id="cadProfessor" layoutX="63.0" layoutY="637.0" onAction="#cadastrarProfessor" text="Cadastrar Professor" />
               <Label fx:id="mensagem" layoutX="63.0" layoutY="25.0" minHeight="16" minWidth="69" />
@@ -50,7 +50,7 @@
             <TextField fx:id="telNumero" layoutX="338.0" layoutY="403.0" />
          </children>
       </Pane>
-      <Pane layoutX="534.0" layoutY="14.0" prefHeight="647.0" prefWidth="377.0">
+      <Pane layoutX="534.0" layoutY="5.0" prefHeight="682.0" prefWidth="377.0">
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Curso" />
             <Label layoutX="15.0" layoutY="42.0" text="Nome Curso" />

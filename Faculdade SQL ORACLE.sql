@@ -16,13 +16,13 @@ primary key(idTelefone));
 
 create table FacCurso(
 idCurso number not null,
-nome varchar2(30) not null unique,
-descricao varchar2(250),
+nome varchar2(60) not null unique,
+descricao varchar2(1000),
 primary key(idCurso));
 
 create table FacDisciplina(
 idDisciplina number not null,
-nome varchar2(30) not null,
+nome varchar2(60) not null,
 descricao varchar2(30) not null,
 primary key(idDisciplina));
 
@@ -72,8 +72,8 @@ idEndereco number not null,
 idTelefone number not null,
 idCurso number not null,
 idResponsavel number not null,
-email varchar(25) not null,
-senha varchar(25) not null,
+email varchar2(25) not null,
+senha varchar2(25) not null,
 acesso number not null,
 primary key(matricula),
 foreign key(idEndereco) references FacEndereco(idEndereco),

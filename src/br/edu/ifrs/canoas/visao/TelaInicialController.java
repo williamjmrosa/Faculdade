@@ -8,6 +8,7 @@ package br.edu.ifrs.canoas.visao;
 import br.com.parg.viacep.ViaCEP;
 import br.com.parg.viacep.ViaCEPEvents;
 import br.com.parg.viacep.ViaCEPException;
+import br.edu.ifrs.canoas.modelo.Curso;
 import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Telefone;
@@ -21,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,9 +103,20 @@ public class TelaInicialController implements Initializable , ViaCEPEvents {
         p.setEndereco(e);
         p.setTelefone(t);
         if(p.insert() == true){
-            mensagem.setText("Professor Cadastrado");
+            mensagem.setText(" Professor Cadastrado");
         }
     
+    }
+    
+    @FXML
+    private void cadastrarCurso(ActionEvent event) {
+        
+        Curso c = new Curso();
+        c.setNome(nomeCurso.getText());
+        c.setDescricao(descricaoCurso.getText());
+        if(c.insert() == true){
+            mensagem.setText(" Curso Cadastrado");
+        }
     }
 
     @Override
@@ -132,10 +143,6 @@ public class TelaInicialController implements Initializable , ViaCEPEvents {
                 System.out.println("Erro na classe: "+vce);
             }
         }
-    }
-
-    @FXML
-    private void cadastrarCurso(ActionEvent event) {
     }
     
 }

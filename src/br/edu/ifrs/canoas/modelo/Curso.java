@@ -5,6 +5,10 @@
  */
 package br.edu.ifrs.canoas.modelo;
 
+import br.edu.ifrs.canoas.persistencia.Conexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -66,6 +70,28 @@ public class Curso {
         l.add(dis);
     }
 
+    public boolean insert(){
+        
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        
+        String sql = "INSERT INTO FacCurso(idCurso,nome,descricao)"
+                + "VALUES(facIdCurso.nextval,?,?)";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nome);
+            ps.setString(2, descricao);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Deu erro Curso");
+            e.printStackTrace();
+            return false;
+        }
+        
+        return true;
+    }
+    
     @Override
     public String toString() {
         return "\nNome: "+nome+

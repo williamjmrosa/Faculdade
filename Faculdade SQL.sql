@@ -1,5 +1,5 @@
 create table FacEndereco(
-idEndereco bigint auto_increment,
+idEndereco bigint not null,
 rua varchar(30) not null,
 cidade varchar(30) not null,
 bairro varchar(30) not null,
@@ -9,7 +9,7 @@ cep varchar(10) not null,
 primary key(idEndereco));
 
 create table FacTelefone(
-idTelefone bigint auto_increment,
+idTelefone bigint not null,
 tipo varchar(15) not null,
 numero varchar(20) not null,
 primary key(idTelefone));
