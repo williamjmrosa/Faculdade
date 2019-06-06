@@ -16,7 +16,7 @@ primary key(idTelefone));
 
 create table FacCurso(
 idCurso number not null,
-nome varchar2(30) not null,
+nome varchar2(30) not null unique,
 descricao varchar2(250),
 primary key(idCurso));
 
@@ -36,8 +36,8 @@ foreign key(idCurso) references FacCurso(idCurso));
 create table FacResponsavel(
 idResponsavel number not null,
 nome varchar2(60) not null,
-rg number not null,
-cpf varchar2(12) not null,
+rg number not null unique,
+cpf varchar2(12) not null unique,
 idEndereco number not null,
 idTelefone number not null,
 email varchar(25) not null,
@@ -50,8 +50,8 @@ foreign key(idTelefone) references FacTelefone(idTelefone));
 create table FacProfessor(
 matricula number not null,
 nome varchar2(60) not null,
-rg number not null,
-cpf varchar2(12) not null,
+rg number not null unique,
+cpf varchar2(12) not null unique,
 idEndereco number not null,
 idTelefone number not null,
 formacao varchar2(40) not null,
@@ -65,8 +65,8 @@ foreign key(idTelefone) references FacTelefone(idTelefone));
 create table FacAluno(
 matricula number not null,
 nome varchar2(60) not null,
-rg number not null,
-cpf varchar2(12) not null,
+rg number not null unique,
+cpf varchar2(12) not null unique,
 dataNascimento date not null,
 idEndereco number not null,
 idTelefone number not null,
@@ -88,6 +88,13 @@ idDisciplina number not null,
 primary key(idTurma),
 foreign key(matriculaProfessor) references FacProfessor(matricula),
 foreign key(idDisciplina) references FacDisciplina(idDisciplina));
+
+create table FacTurmaAluno(
+matricula number not null,
+idTurma number not null,
+primary key(matricula,idTurma),
+foreign key(matricula) references FacAluno(matricula),
+foreign key(idTurma) references FacTurma(idTurma));
 
 create table FacNota(
 idNota number not null,

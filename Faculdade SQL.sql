@@ -36,8 +36,8 @@ foreign key(idCurso) references FacCurso(idCurso));
 create table FacResponsavel(
 idResponsavel bigint auto_increment,
 nome varchar(60) not null,
-rg bigint not null,
-cpf varchar(12) not null,
+rg bigint not null unique,
+cpf varchar(12) not null unique,
 idEndereco bigint not null,
 idTelefone bigint not null,
 email varchar(25) not null,
@@ -50,8 +50,8 @@ foreign key(idTelefone) references FacTelefone(idTelefone));
 create table FacProfessor(
 matricula bigint not null,
 nome varchar(60) not null,
-rg bigint not null,
-cpf varchar(12) not null,
+rg bigint not null unique,
+cpf varchar(12) not null unique,
 idEndereco bigint not null,
 idTelefone bigint not null,
 formacao varchar(40) not null,
@@ -65,8 +65,8 @@ foreign key(idTelefone) references FacTelefone(idTelefone));
 create table FacAluno(
 matricula bigint not null,
 nome varchar(60) not null,
-rg bigint not null,
-cpf varchar(12) not null,
+rg bigint not null unique,
+cpf varchar(12) not null unique,
 dataNascimento date not null,
 idEndereco bigint not null,
 idTelefone bigint not null,
@@ -88,6 +88,13 @@ idDisciplina bigint not null,
 primary key(idTurma),
 foreign key(matriculaProfessor) references FacProfessor(matricula),
 foreign key(idDisciplina) references FacDisciplina(idDisciplina));
+
+create table FacTurmaAluno(
+matricula bigint not null,
+idTurma bigint not null,
+primary key(matricula,idTurma),
+foreign key(matricula) references FacAluno(matricula),
+foreign key(idTurma) references FacTurma(idTurma));
 
 create table FacNota(
 idNota bigint auto_increment,
