@@ -98,22 +98,24 @@ public class Endereco {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "INSERT INTO FacEndereco(idEndereco,rua,cidade,bairro,estado,numero,cep)"
-                +"VALUES(?,?,?,?,?,?,?)";
+                +"VALUES(facIdEndereco.nextval,?,?,?,?,?,?)";
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setLong(1, idEndereco);
-            ps.setString(2, rua);
-            ps.setString(3, cidade);
-            ps.setString(4, bairro);
-            ps.setString(5, estado);
-            ps.setInt(6, numero);
-            ps.setString(7, cep);
+            String generatedColumns[] = {"idEndereco"};
+            
+            PreparedStatement ps = con.prepareStatement(sql,generatedColumns);
+            //ps.setLong(1, idEndereco);
+            ps.setString(1, rua);
+            ps.setString(2, cidade);
+            ps.setString(3, bairro);
+            ps.setString(4, estado);
+            ps.setInt(5, numero);
+            ps.setString(6, cep);
             ps.executeUpdate();
-            /*ps.executeUpdate(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+            //ps.executeUpdate(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet rs = ps.getGeneratedKeys();
-            if(rs != null && rs.next()){
+            if(rs.next()){
                 idEndereco = rs.getLong(1);
-            }*/
+            }
             
         } catch (SQLException e) {
             System.out.println("Deu erro no endereço");

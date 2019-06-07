@@ -89,7 +89,7 @@ public class TelaInicialController implements Initializable , ViaCEPEvents {
         p.setSenha(senha.getText());
         p.setAcesso(1);
         Endereco e = new Endereco();
-        e.setIdEndereco(p.getMatricula());
+        //e.setIdEndereco(p.getMatricula());
         e.setCep(cep.getText());
         e.setRua(rua.getText());
         e.setNumero(Integer.parseInt(numero.getText()));

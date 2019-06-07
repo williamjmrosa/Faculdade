@@ -57,18 +57,20 @@ public class Telefone {
     public boolean insert(){
         Conexao c = new Conexao();
         Connection con = c.getConexao();
-        String sql = "INSERT INTO FacTelefone(idTelefone,tipo,numero) VALUES(?,?,?)";
+        String sql = "INSERT INTO FacTelefone(idTelefone,tipo,numero) VALUES(facIdTelefone.nextval,?,?)";
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setLong(1, idTelefone);
-            ps.setString(2, tipo);
-            ps.setString(3, numero);
+            String generatedColumns[] = {"idTelefone"};
+            
+            PreparedStatement ps = con.prepareStatement(sql,generatedColumns);
+            //ps.setLong(1, idTelefone);
+            ps.setString(1, tipo);
+            ps.setString(2, numero);
             ps.executeUpdate();
-            /*ps.executeUpdate(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            //ps.executeUpdate(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet rs = ps.getGeneratedKeys();
-            if(rs != null && rs.next()){
+            if(rs.next()){
                 idTelefone = rs.getLong(1);
-            }*/
+            }
         } catch (SQLException e) {
             System.out.println("Deu problema no telefone!");
             e.printStackTrace();
