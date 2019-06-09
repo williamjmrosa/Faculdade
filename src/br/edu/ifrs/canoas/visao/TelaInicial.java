@@ -5,6 +5,9 @@
  */
 package br.edu.ifrs.canoas.visao;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +21,29 @@ import javafx.stage.Stage;
  */
 public class TelaInicial extends Application {
     
+    private static Stage st;
+    
+    
+    public static void trocaTela(String caminho){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(TelaInicial.class.getResource(caminho));
+        } catch (IOException ex) {
+            System.out.println("Erro ao carregar XML");
+            Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Scene scene = new Scene(root);
+        
+        st.setScene(scene);
+        st.show();
+    }
+    
     @Override
     public void start(Stage stage) throws Exception {
+        
+        st = stage;
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaInicial.fxml"));
         
         Scene scene = new Scene(root);

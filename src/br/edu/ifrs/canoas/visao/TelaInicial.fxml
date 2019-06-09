@@ -1,64 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="668.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.canoas.visao.TelaInicialController">
+<AnchorPane id="AnchorPane" prefHeight="486.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.canoas.visao.TelaInicialController">
     <children>
-      <Pane layoutX="14.0" layoutY="8.0" prefHeight="682.0" prefWidth="511.0">
-         <children>
-              <Button fx:id="cadProfessor" layoutX="63.0" layoutY="637.0" onAction="#cadastrarProfessor" text="Cadastrar Professor" />
-              <Label fx:id="mensagem" layoutX="63.0" layoutY="25.0" minHeight="16" minWidth="69" />
-            <Label layoutX="17.0" layoutY="25.0" text="Cadastro" />
-            <TextField fx:id="matricula" layoutX="98.0" layoutY="67.0" />
-            <TextField fx:id="nome" layoutX="98.0" layoutY="103.0" />
-            <TextField fx:id="rg" layoutX="98.0" layoutY="136.0" />
-            <Label layoutX="16.0" layoutY="67.0" text="Matricula" />
-            <Label layoutX="15.0" layoutY="103.0" text="Nome" />
-            <Label layoutX="15.0" layoutY="136.0" text="RG" />
-            <Label layoutX="15.0" layoutY="170.0" text="CPF" />
-            <Label layoutX="10.0" layoutY="346.0" text="Endereco" />
-            <Label layoutX="12.0" layoutY="429.0" text="Rua" />
-            <Label layoutX="14.0" layoutY="504.0" text="Bairro" />
-            <Label layoutX="14.0" layoutY="542.0" text="Cidade" />
-            <Label layoutX="13.0" layoutY="579.0" text="Estado" />
-            <Label layoutX="13.0" layoutY="467.0" text="Numero" />
-            <Label layoutX="12.0" layoutY="392.0" text="Cep" />
-            <TextField fx:id="cpf" layoutX="98.0" layoutY="170.0" />
-            <TextField fx:id="fomacao" layoutX="98.0" layoutY="204.0" />
-            <TextField fx:id="email" layoutX="98.0" layoutY="239.0" />
-            <TextField fx:id="senha" layoutX="98.0" layoutY="280.0" />
-            <TextField fx:id="reSenha" layoutX="98.0" layoutY="314.0" />
-            <TextField fx:id="cep" layoutX="95.0" layoutY="388.0" onKeyPressed="#endereco" />
-            <TextField fx:id="rua" layoutX="95.0" layoutY="425.0" />
-            <TextField fx:id="numero" layoutX="95.0" layoutY="463.0" />
-            <TextField fx:id="bairro" layoutX="95.0" layoutY="500.0" />
-            <Label layoutX="14.0" layoutY="239.0" text="E-mail" />
-            <Label layoutX="12.0" layoutY="276.0" text="Senha" />
-            <Label layoutX="11.0" layoutY="315.0" text="Repetir Senha" />
-            <TextField fx:id="cidade" layoutX="95.0" layoutY="538.0" />
-            <TextField fx:id="estado" layoutX="95.0" layoutY="575.0" />
-            <TextField fx:id="telTipo" layoutX="338.0" layoutY="367.0" />
-            <Label layoutX="283.0" layoutY="371.0" text="Tipo" />
-            <Label layoutX="282.0" layoutY="405.0" text="Numero" />
-            <Label layoutX="281.0" layoutY="329.0" text="Telefone" />
-            <Label layoutX="14.0" layoutY="204.0" text="Formação" />
-            <TextField fx:id="telNumero" layoutX="338.0" layoutY="403.0" />
-         </children>
-      </Pane>
-      <Pane layoutX="534.0" layoutY="5.0" prefHeight="682.0" prefWidth="377.0">
-         <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Curso" />
-            <Label layoutX="15.0" layoutY="42.0" text="Nome Curso" />
-            <Label layoutX="15.0" layoutY="73.0" text="Descrição" />
-            <TextField fx:id="nomeCurso" layoutX="89.0" layoutY="42.0" />
-            <TextArea fx:id="descricaoCurso" layoutX="89.0" layoutY="77.0" prefHeight="200.0" prefWidth="200.0" />
-            <Button layoutX="89.0" layoutY="290.0" mnemonicParsing="false" onAction="#cadastrarCurso" text="Cadastrar Curso" />
-         </children>
-      </Pane>
+      <MenuBar layoutX="1.0" layoutY="2.0" prefHeight="25.0" prefWidth="451.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Cadastrar">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#telaCadProfessor" text="Cadastrar Professor" />
+                  <MenuItem mnemonicParsing="false" onAction="#telaCadCurso" text="Cadastrar Curso" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Editar">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
     </children>
 </AnchorPane>
