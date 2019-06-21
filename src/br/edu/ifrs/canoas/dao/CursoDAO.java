@@ -43,7 +43,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
             return -1L;
         }
         
-        return o.getIdCurso();
+        return 1L;
     }
 
     @Override
