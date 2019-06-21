@@ -5,8 +5,11 @@
  */
 package br.edu.ifrs.canoas.visao;
 
+import br.edu.ifrs.canoas.dao.CursoDAO;
+import br.edu.ifrs.canoas.modelo.Curso;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,7 +28,7 @@ import javafx.scene.input.KeyEvent;
 public class AdicionarDisciplinaCursoController implements Initializable {
 
     @FXML
-    private ListView<?> listCurso;
+    private ListView<Curso> listCurso;
     @FXML
     private TextField filtroCurso;
     @FXML
@@ -49,8 +52,16 @@ public class AdicionarDisciplinaCursoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        //ComboCurso.setSelectionModel("ID");
-        //ComboCurso.setSelectionModel("Nome");
+        ComboCurso.getItems().add("ID");
+        ComboCurso.getItems().add("Nome");
+        ComboCurso.getSelectionModel().select(0);
+        for(Curso c : CursoDAO.getALL()){
+            c.mostrar(1);
+            listCurso.getItems().add(c);
+            
+        }
+        
+        
     }    
 
     @FXML
@@ -64,6 +75,12 @@ public class AdicionarDisciplinaCursoController implements Initializable {
 
     @FXML
     private void filtrarCurso(KeyEvent event) {
+        CursoDAO cDAO = new CursoDAO();
+        listCurso.getItems().clear();
+        for(Curso c : cDAO.filtrar(filtroCurso.getText())){
+            c.mostrar(1);
+            listCurso.getItems().add(c);
+        }
     }
 
     @FXML

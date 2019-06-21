@@ -12,17 +12,7 @@ import java.util.ArrayList;
  * @author William José
  */
 public abstract class AbstractDAO<T> {
-    
-    private static Long id;
-
-    public static Long getId() {
-        return id;
-    }
-
-    public static void setId(Long id) {
-        AbstractDAO.id = id;
-    }
-    
+       
     public abstract T getOne();
     
     public abstract Long insert(T o);
@@ -32,6 +22,10 @@ public abstract class AbstractDAO<T> {
     public abstract boolean update(T o);
     
     public abstract ArrayList<T> buscar(Long id);
+    
+    public abstract ArrayList<T> filtrar(Long id);
+    
+    public abstract ArrayList<T> filtrar(String texto);
     
     public abstract T login(String usuario, String senha);
     

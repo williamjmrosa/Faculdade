@@ -20,6 +20,7 @@ public class Curso {
     private String nome;
     private String descricao;
     private ArrayList<Disciplina> l = new ArrayList<>();
+    private String texto;
 
     public Curso() {
     }
@@ -70,10 +71,19 @@ public class Curso {
         l.add(dis);
     }
     
+    public void mostrar(int s){
+        if(s == 1){
+            texto = "Curso: "+nome;
+        }else{
+            texto = "\nNome: "+nome+
+                    "\nDescrição: "+descricao+
+                    "\nDisciplinas "+l.toString();
+        }
+    }
+    
     @Override
     public String toString() {
-        return "\nNome: "+nome+
-                "\nDisciplinas "+l.toString();
+        return texto;
     }
     
 }

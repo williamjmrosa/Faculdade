@@ -9,7 +9,9 @@ import br.edu.ifrs.canoas.modelo.Curso;
 import br.edu.ifrs.canoas.persistencia.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -58,7 +60,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
 
     @Override
     public ArrayList<Curso> buscar(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -69,6 +71,97 @@ public class CursoDAO extends AbstractDAO<Curso>{
     @Override
     public Curso logado(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<Curso> filtrar(Long id) {
+        ArrayList<Curso> cursos = new ArrayList<>();
+        
+        Conexao conexao = new Conexao();
+        Connection con = conexao.getConexao();
+        
+        String sql = "SELECT * FROM FACCURSO WHERE IDCURSO = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                Curso c = new Curso();
+                c.setIdCurso(rs.getLong("idCurso"));
+                c.setNome(rs.getString("nome"));
+                c.setDescricao(rs.getString("descricao"));
+                cursos.add(c);
+            }
+            
+        } catch (SQLException e) {
+            
+            System.out.println("Erro ao filtrar Curso");
+            e.printStackTrace();
+            return null;
+        }
+        return cursos;
+    }
+
+    @Override
+    public ArrayList<Curso> filtrar(String texto) {
+        ArrayList<Curso> cursos = new ArrayList<>();
+        
+        Conexao conexao = new Conexao();
+        Connection con = conexao.getConexao();
+        
+        String sql = "SELECT * FROM FACCURSO WHERE NOME like ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%"+texto+"%");
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                Curso c = new Curso();
+                c.setIdCurso(rs.getLong("idCurso"));
+                c.setNome(rs.getString("nome"));
+                c.setDescricao(rs.getString("descricao"));
+                cursos.add(c);
+            }
+            
+        } catch (SQLException e) {
+            
+            System.out.println("Erro ao filtrar Curso");
+            e.printStackTrace();
+            return null;
+        }
+        return cursos;
+    }
+    
+    public static ArrayList<Curso> getALL(){
+        ArrayList<Curso> cursos = new ArrayList<>();
+        
+        Conexao conexao = new Conexao();
+        Connection con = conexao.getConexao();
+        
+        String sql = "SELECT * FROM FACCURSO";
+        
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()){
+                Curso c = new Curso();
+                c.setIdCurso(rs.getLong("idCurso"));
+                c.setNome(rs.getString("nome"));
+                c.setDescricao(rs.getString("descricao"));
+                cursos.add(c);
+            }
+            
+        } catch (SQLException e) {
+            
+            System.out.println("Erro ao filtrar Curso");
+            e.printStackTrace();
+            return null;
+        }
+        return cursos;
     }
     
     
