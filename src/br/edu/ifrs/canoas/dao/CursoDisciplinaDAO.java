@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author William
+ * @author William José
  */
-public class CursoDAO extends AbstractDAO<Curso>{
+public class CursoDisciplinaDAO extends AbstractDAO<Curso> {
 
     @Override
     public Curso getOne() {
@@ -25,25 +25,29 @@ public class CursoDAO extends AbstractDAO<Curso>{
 
     @Override
     public Long insert(Curso o) {
-        
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         
-        String sql = "INSERT INTO FacCurso(idCurso,nome,descricao)"
-                + "VALUES(facIdCurso.nextval,?,?)";
+        String sql = "INSERT INTO FacCursoDisciplina(idDisciplina,idCurso) VALUES(?,?)";
         
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, o.getNome());
-            ps.setString(2, o.getDescricao());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Deu erro Curso");
+        try{
+            for(int i = 0;i< o.getL().size();i++){
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setLong(1, o.getL().get(i).getIdDisciplina());
+                ps.setLong(2, o.getIdCurso());
+            
+                ps.executeUpdate();
+            }
+            
+            
+            
+            
+        }catch(SQLException e){
+            System.out.println("Erro cadastro CursoDisciplina");
             e.printStackTrace();
             return -1L;
         }
-        
-        return 1L;
+        return 0L;
     }
 
     @Override
@@ -70,6 +74,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
     public Curso logado(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
     
     
 }
