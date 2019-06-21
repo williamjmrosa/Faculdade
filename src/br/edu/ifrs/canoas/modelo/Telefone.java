@@ -53,31 +53,6 @@ public class Telefone {
     public void setNumero(String numero) {
         this.numero = numero;
     }
-
-    public boolean insert(){
-        Conexao c = new Conexao();
-        Connection con = c.getConexao();
-        String sql = "INSERT INTO FacTelefone(idTelefone,tipo,numero) VALUES(facIdTelefone.nextval,?,?)";
-        try {
-            String generatedColumns[] = {"idTelefone"};
-            
-            PreparedStatement ps = con.prepareStatement(sql,generatedColumns);
-            //ps.setLong(1, idTelefone);
-            ps.setString(1, tipo);
-            ps.setString(2, numero);
-            ps.executeUpdate();
-            //ps.executeUpdate(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ResultSet rs = ps.getGeneratedKeys();
-            if(rs.next()){
-                idTelefone = rs.getLong(1);
-            }
-        } catch (SQLException e) {
-            System.out.println("Deu problema no telefone!");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
     
     @Override
     public String toString() {

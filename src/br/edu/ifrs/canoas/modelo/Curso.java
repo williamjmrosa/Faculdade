@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author William José
  */
 public class Curso {
-    private int idCurso;
+    private Long idCurso;
     private String nome;
     private String descricao;
     private ArrayList<Disciplina> l = new ArrayList<>();
@@ -24,17 +24,17 @@ public class Curso {
     public Curso() {
     }
 
-    public Curso(int idCurso, String nome, String descricao) {
+    public Curso(Long idCurso, String nome, String descricao) {
         this.idCurso = idCurso;
         this.nome = nome;
         this.descricao = descricao;
     }
     
-    public int getIdCurso() {
+    public Long getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(int idCurso) {
+    public void setIdCurso(Long idCurso) {
         this.idCurso = idCurso;
     }
     
@@ -68,28 +68,6 @@ public class Curso {
     
     public void addDisciplina(Disciplina dis){
         l.add(dis);
-    }
-
-    public boolean insert(){
-        
-        Conexao c = new Conexao();
-        Connection con = c.getConexao();
-        
-        String sql = "INSERT INTO FacCurso(idCurso,nome,descricao)"
-                + "VALUES(facIdCurso.nextval,?,?)";
-        
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, nome);
-            ps.setString(2, descricao);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Deu erro Curso");
-            e.printStackTrace();
-            return false;
-        }
-        
-        return true;
     }
     
     @Override

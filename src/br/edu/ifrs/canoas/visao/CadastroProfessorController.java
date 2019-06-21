@@ -8,6 +8,7 @@ package br.edu.ifrs.canoas.visao;
 import br.com.parg.viacep.ViaCEP;
 import br.com.parg.viacep.ViaCEPEvents;
 import br.com.parg.viacep.ViaCEPException;
+import br.edu.ifrs.canoas.dao.ProfessorDAO;
 import br.edu.ifrs.canoas.modelo.Curso;
 import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Professor;
@@ -75,7 +76,7 @@ public class CadastroProfessorController implements Initializable, ViaCEPEvents 
 
     @FXML
     private void cadastrarProfessor(ActionEvent event) {
-    
+        ProfessorDAO pDAO = new ProfessorDAO();
         Professor p = new Professor();
         p.setMatricula(Long.parseLong(matricula.getText()));
         p.setNome(nome.getText());
@@ -99,8 +100,10 @@ public class CadastroProfessorController implements Initializable, ViaCEPEvents 
         t.setNumero(telNumero.getText());
         p.setEndereco(e);
         p.setTelefone(t);
-        if(p.insert() == true){
+        if(pDAO.insert(p) != -1){
             mensagem.setText(" Professor Cadastrado");
+        }else{
+            mensagem.setText(" Erro no Cadastro do Professor");
         }
     
     }

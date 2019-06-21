@@ -38,38 +38,6 @@ public class Professor extends Pessoa{
         this.formacao = formacao;
     }
     
-    public boolean insert(){
-        Conexao c = new Conexao();
-        Connection con = c.getConexao();
-        
-        String sql = "INSERT INTO FacProfessor(matricula,nome,rg,cpf,idEndereco,idTelefone,formacao,email,senha,acesso)"
-                +"VALUES(?,?,?,?,?,?,?,?,?,?)";
-        
-        try {
-            if(super.getEndereco().insert() == true && super.getTelefone().insert() == true){
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.setLong(1, super.getMatricula());
-                ps.setString(2, super.getNome());
-                ps.setLong(3, super.getRg());
-                ps.setString(4, super.getCpf());
-                ps.setLong(5, super.getEndereco().getIdEndereco());
-                ps.setLong(6, super.getTelefone().getIdTelefone());
-                ps.setString(7, formacao);
-                ps.setString(8, super.getEmail());
-                ps.setString(9, super.getSenha());
-                ps.setInt(10, super.getAcesso());
-                
-                ps.executeUpdate();
-            }
-        } catch (SQLException e) {
-            System.out.println("Deu problema Professor");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-        
-    }
-    
     @Override
     public String toString() {
         return super.toString()+

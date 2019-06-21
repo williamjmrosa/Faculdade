@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.canoas.visao;
 
+import br.edu.ifrs.canoas.dao.CursoDAO;
 import br.edu.ifrs.canoas.modelo.Curso;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,12 +40,16 @@ public class CadastroCursoController implements Initializable {
 
     @FXML
     private void cadastrarCurso(ActionEvent event) {
+        CursoDAO cDAO = new CursoDAO();
         
         Curso c = new Curso();
         c.setNome(nomeCurso.getText());
         c.setDescricao(descricaoCurso.getText());
-        if(c.insert() == true){
+        
+        if(cDAO.insert(c) != -1){
             mensagem.setText(" Curso Cadastrado");
+        }else{
+            mensagem.setText(" Erro no Cadastro do Curso");
         }
     }
 
