@@ -13,6 +13,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#telaCadProfessor" text="Cadastrar Professor" />
                   <MenuItem mnemonicParsing="false" onAction="#telaCadCurso" text="Cadastrar Curso" />
+                  <MenuItem mnemonicParsing="false" onAction="#telaCadDisciplina" text="Cadastrar Disciplina" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Editar">
