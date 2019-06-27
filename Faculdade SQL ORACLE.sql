@@ -23,7 +23,7 @@ primary key(idCurso));
 create table FacDisciplina(
 idDisciplina number not null,
 nome varchar2(60) not null,
-descricao varchar2(30) not null,
+descricao varchar2(1000) not null,
 primary key(idDisciplina));
 
 create table FacCursoDisciplina(

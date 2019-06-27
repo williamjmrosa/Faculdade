@@ -80,7 +80,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
         Conexao conexao = new Conexao();
         Connection con = conexao.getConexao();
         
-        String sql = "SELECT * FROM FACCURSO WHERE IDCURSO = ?";
+        String sql = "SELECT * FROM FACCURSO WHERE IDCURSO = ? ORDER BY IDCURSO";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -111,11 +111,11 @@ public class CursoDAO extends AbstractDAO<Curso>{
         Conexao conexao = new Conexao();
         Connection con = conexao.getConexao();
         
-        String sql = "SELECT * FROM FACCURSO WHERE NOME like ?";
+        String sql = "SELECT * FROM FACCURSO WHERE NOME like ? ORDER BY IDCURSO";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, "%"+texto+"%");
+            ps.setString(1, texto+"%");
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
@@ -141,7 +141,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
         Conexao conexao = new Conexao();
         Connection con = conexao.getConexao();
         
-        String sql = "SELECT * FROM FACCURSO";
+        String sql = "SELECT * FROM FACCURSO ORDER BY IDCURSO";
         
         try {
             Statement st = con.createStatement();

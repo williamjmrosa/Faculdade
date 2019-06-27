@@ -10,18 +10,19 @@ package br.edu.ifrs.canoas.modelo;
  * @author William José
  */
 public class Disciplina {
-    private int idDisciplina;
+    private Long idDisciplina;
     private String nome;
     private String descricao;
+    private String texto;
 
     public Disciplina() {
     }
 
-    public int getIdDisciplina() {
+    public Long getIdDisciplina() {
         return idDisciplina;
     }
 
-    public void setIdDisciplina(int idDisciplina) {
+    public void setIdDisciplina(Long idDisciplina) {
         this.idDisciplina = idDisciplina;
     }
     
@@ -45,11 +46,19 @@ public class Disciplina {
         this.descricao = descricao;
     }
     
-    @Override
-    public String toString() {
-        return  "\nID Disciplina: "+idDisciplina+
+    public void mostrar(int s){
+        if(s == 1){
+            texto = idDisciplina+" - "+nome;
+        }else{
+            texto = "\nID Disciplina: "+idDisciplina+
                 "\nDisciplina: "+nome+
                 "\nDescrição: "+descricao;
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return  texto;
     }
     
     

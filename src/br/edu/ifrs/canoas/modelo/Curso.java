@@ -73,7 +73,7 @@ public class Curso {
     
     public void mostrar(int s){
         if(s == 1){
-            texto = "Curso: "+nome;
+            texto = idCurso+" - "+nome;
         }else{
             texto = "\nNome: "+nome+
                     "\nDescrição: "+descricao+
