@@ -71,6 +71,10 @@ public class Curso {
         l.add(dis);
     }
     
+    public void removeDisciplina(Disciplina dis){
+        l.remove(dis);
+    }
+    
     public void mostrar(int s){
         if(s == 1){
             texto = idCurso+" - "+nome;

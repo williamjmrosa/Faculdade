@@ -66,16 +66,6 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
     }
 
     @Override
-    public Disciplina login(String usuario, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Disciplina logado(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public ArrayList<Disciplina> filtrar(Long id) {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
@@ -93,6 +83,7 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 d.setIdDisciplina(rs.getLong("idDisciplina"));
                 d.setNome(rs.getString("nome"));
                 d.setDescricao(rs.getString("descricao"));
+                d.mostrar(1);
                 disciplinas.add(d);
                 
             }
@@ -119,6 +110,7 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 d.setIdDisciplina(rs.getLong("idDisciplina"));
                 d.setNome(rs.getString("nome"));
                 d.setDescricao(rs.getString("descricao"));
+                d.mostrar(1);
                 disciplinas.add(d);
             }
         } catch (SQLException e) {
@@ -144,7 +136,9 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 d.setIdDisciplina(rs.getLong("idDisciplina"));
                 d.setNome(rs.getString("nome"));
                 d.setDescricao(rs.getString("descricao"));
+                d.mostrar(1);
                 disciplinas.add(d);
+                
             }
             
         } catch (SQLException e) {

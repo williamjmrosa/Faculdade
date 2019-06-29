@@ -62,17 +62,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
     public ArrayList<Curso> buscar(Long id) {
        throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public Curso login(String usuario, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Curso logado(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public ArrayList<Curso> filtrar(Long id) {
         ArrayList<Curso> cursos = new ArrayList<>();
@@ -92,6 +82,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 c.setIdCurso(rs.getLong("idCurso"));
                 c.setNome(rs.getString("nome"));
                 c.setDescricao(rs.getString("descricao"));
+                c.mostrar(1);
                 cursos.add(c);
             }
             
@@ -123,6 +114,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 c.setIdCurso(rs.getLong("idCurso"));
                 c.setNome(rs.getString("nome"));
                 c.setDescricao(rs.getString("descricao"));
+                c.mostrar(1);
                 cursos.add(c);
             }
             
@@ -152,6 +144,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 c.setIdCurso(rs.getLong("idCurso"));
                 c.setNome(rs.getString("nome"));
                 c.setDescricao(rs.getString("descricao"));
+                c.mostrar(1);
                 cursos.add(c);
             }
             

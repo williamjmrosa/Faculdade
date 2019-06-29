@@ -26,9 +26,4 @@ public abstract class AbstractDAO<T> {
     public abstract ArrayList<T> filtrar(Long id);
     
     public abstract ArrayList<T> filtrar(String texto);
-    
-    public abstract T login(String usuario, String senha);
-    
-    public abstract T logado(int id);
-    
 }
