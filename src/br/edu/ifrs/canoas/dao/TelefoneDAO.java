@@ -20,8 +20,26 @@ import java.util.ArrayList;
 public class TelefoneDAO extends AbstractDAO<Telefone>{
 
     @Override
-    public Telefone getOne() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Telefone getOne(Long id) {
+        Telefone t = new Telefone();
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        String sql = "SELECT * FROM FacTelefone WHERE idTelefone = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                t.setIdTelefone(rs.getLong("idTelefone"));
+                t.setNumero(rs.getString("numero"));
+                t.setTipo(rs.getString("tipo"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar teleone expecifico");
+            e.printStackTrace();
+            return null;
+        }
+        return t;
     }
 
     @Override

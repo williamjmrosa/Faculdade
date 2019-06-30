@@ -23,7 +23,7 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
     private EnderecoDAO eDAO = new EnderecoDAO();
     
     @Override
-    public Professor getOne() {
+    public Professor getOne(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractDAO<T> {
        
-    public abstract T getOne();
+    public abstract T getOne(Long id);
     
     public abstract Long insert(T o);
     

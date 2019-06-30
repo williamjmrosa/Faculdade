@@ -5,23 +5,14 @@
  */
 package br.edu.ifrs.canoas.visao;
 
-import br.com.parg.viacep.ViaCEP;
-import br.com.parg.viacep.ViaCEPEvents;
-import br.com.parg.viacep.ViaCEPException;
-import br.edu.ifrs.canoas.modelo.Curso;
-import br.edu.ifrs.canoas.modelo.Endereco;
-import br.edu.ifrs.canoas.modelo.Professor;
-import br.edu.ifrs.canoas.modelo.Telefone;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -58,6 +49,11 @@ public class TelaInicialController implements Initializable {
     @FXML
     private void telaAddDisciplinaCurso(ActionEvent event) {
         TelaInicial.trocaTela("AdicionarDisciplinaCurso.fxml");
+    }
+
+    @FXML
+    private void telaCadAluno(ActionEvent event) {
+        TelaInicial.trocaTela("CadastroAluno.fxml");
     }
 
     

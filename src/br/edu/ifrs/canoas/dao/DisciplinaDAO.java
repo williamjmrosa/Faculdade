@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DisciplinaDAO extends AbstractDAO<Disciplina> {
 
     @Override
-    public Disciplina getOne() {
+    public Disciplina getOne(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class EnderecoDAO extends AbstractDAO<Endereco> {
 
     @Override
-    public Endereco getOne() {
+    public Endereco getOne(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

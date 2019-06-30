@@ -14,7 +14,6 @@ public class Responsavel {
     private String nome;
     private Long rg;
     private String cpf;
-    private Endereco endereco;
     private Telefone telefone;
     private String email;
     private String senha;
@@ -23,12 +22,11 @@ public class Responsavel {
     public Responsavel() {
     }
 
-    public Responsavel(Long idResponsavel, String nome, Long rg, String cpf, Endereco endereco, Telefone telefone, String email, String senha, int acesso) {
+    public Responsavel(Long idResponsavel, String nome, Long rg, String cpf, Telefone telefone, String email, String senha, int acesso) {
         this.idResponsavel = idResponsavel;
         this.nome = nome;
         this.rg = rg;
         this.cpf = cpf;
-        this.endereco = endereco;
         this.telefone = telefone;
         this.email = email;
         this.senha = senha;
@@ -73,14 +71,6 @@ public class Responsavel {
 
     public void setAcesso(int acesso) {
         this.acesso = acesso;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public Telefone getTelefone() {

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class CursoDAO extends AbstractDAO<Curso>{
 
     @Override
-    public Curso getOne() {
+    public Curso getOne(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
