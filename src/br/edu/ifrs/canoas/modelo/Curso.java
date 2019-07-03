@@ -20,7 +20,7 @@ public class Curso {
     private String nome;
     private String descricao;
     private ArrayList<Disciplina> l = new ArrayList<>();
-    private String texto;
+    private String texto = "Selecione um Curso";
 
     public Curso() {
     }

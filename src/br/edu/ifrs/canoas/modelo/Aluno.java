@@ -11,32 +11,39 @@ package br.edu.ifrs.canoas.modelo;
  */
 public class Aluno extends Pessoa{
     
-    private String dataNascimento;
+    private Data dataNascimento;
     private Curso curso;
     private Responsavel responsavel;
 
     public Aluno() {
     }
 
-    public Aluno(String dataNascimento, Curso curso, Responsavel responsavel) {
+    public Aluno(Data dataNascimento, Curso curso, Responsavel responsavel) {
         this.dataNascimento = dataNascimento;
         this.curso = curso;
         this.responsavel = responsavel;
     }
 
-    public Aluno(String dataNascimento, Curso curso, Responsavel responsavel, Long matricula, String nome, Long rg, String cpf, Endereco endereco, Telefone telefone, String email, String senha, int acesso) {
+    public Aluno(Data dataNascimento, Curso curso, Responsavel responsavel, Long matricula, String nome, Long rg, String cpf, Endereco endereco, Telefone telefone, String email, String senha, int acesso) {
         super(matricula, nome, rg, cpf, endereco, telefone, email, senha, acesso);
         this.dataNascimento = dataNascimento;
         this.curso = curso;
         this.responsavel = responsavel;
     }
 
-    public String getDataNascimento() {
+    public Data getDataNascimento() {
         return dataNascimento;
-    }
+    }    
 
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDataNascimento(String dataNasc) {
+        String[] partes;
+        partes = dataNasc.split("/"); 
+        Data d = new Data();
+        
+        d.setDia(Integer.parseInt(partes[0]));
+        d.setMes(Integer.parseInt(partes[1]));
+        d.setAno(Integer.parseInt(partes[2]));
+        this.dataNascimento = d;
     }
 
     public Curso getCurso() {
@@ -58,7 +65,7 @@ public class Aluno extends Pessoa{
     @Override
     public String toString() {
         return  super.toString()+
-                "\nData Nascimento: "+dataNascimento+
+                "\nData Nascimento: "+dataNascimento.getDia()+"/"+dataNascimento.getMes()+"/"+dataNascimento.getAno()+
                 "\nCurso:"+curso.toString()+
                 "\nEndereco: "+getEndereco().toString()+
                 "\nTelefone: "+getTelefone().toString();
