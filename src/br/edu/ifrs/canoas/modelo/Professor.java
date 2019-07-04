@@ -5,11 +5,6 @@
  */
 package br.edu.ifrs.canoas.modelo;
 
-import br.edu.ifrs.canoas.persistencia.Conexao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
  *
  * @author William José
@@ -39,12 +34,23 @@ public class Professor extends Pessoa{
     }
     
     @Override
-    public String toString() {
-        return super.toString()+
+    public void mostrar(int s) {
+        if(s == 1){
+            super.setTexto(super.getMatricula()+" - "+super.getNome());
+        }else{
+            super.setTexto(super.toString()+
                 "\nFormação: "+formacao+
                 "\nEndereço: "+getEndereco().toString()+
-                "\nTelefone: "+getEndereco().toString();
+                "\nTelefone: "+getEndereco().toString());
+        }
     }
+    
+    @Override
+    public String toString() {
+        return super.getTexto();
+    }
+
+    
     
     
 }

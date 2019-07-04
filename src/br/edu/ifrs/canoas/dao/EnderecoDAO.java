@@ -21,7 +21,32 @@ public class EnderecoDAO extends AbstractDAO<Endereco> {
 
     @Override
     public Endereco getOne(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        
+        String sql = "SELECT * FROM FacEndereco where idEndereco = ?";
+        try {
+            Endereco e = new Endereco();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                
+                e.setIdEndereco(rs.getLong("idEndereco"));
+                e.setCep(rs.getString("cep"));
+                e.setBairro(rs.getString("bairro"));
+                e.setCidade("cidade");
+                e.setEstado(rs.getString("estado"));
+                e.setNumero(rs.getInt("numero"));
+                e.setRua(rs.getString("rua"));
+            }
+            return e;
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar endereço expecifico");
+            e.printStackTrace();
+            return null;
+        }
+         
     }
 
     @Override

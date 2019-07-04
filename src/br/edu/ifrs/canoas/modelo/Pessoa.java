@@ -19,6 +19,7 @@ public abstract class Pessoa {
     private String email;
     private String senha;
     private int acesso;
+    private String texto;
 
     public Pessoa() {
     }
@@ -106,6 +107,16 @@ public abstract class Pessoa {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+    
+    public abstract void mostrar(int s);
    
     @Override
     public String toString() {

@@ -11,7 +11,9 @@ import br.edu.ifrs.canoas.modelo.Telefone;
 import br.edu.ifrs.canoas.persistencia.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -19,12 +21,42 @@ import java.util.ArrayList;
  * @author William José
  */
 public class ProfessorDAO extends AbstractDAO<Professor> {
-    private TelefoneDAO tDAO = new TelefoneDAO();
-    private EnderecoDAO eDAO = new EnderecoDAO();
+    private static TelefoneDAO tDAO = new TelefoneDAO();
+    private static EnderecoDAO eDAO = new EnderecoDAO();
     
     @Override
     public Professor getOne(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        Professor p = new Professor();
+        String sql = "SELECT * FROM FacProfessor WHERE matricula = ?";
+        
+        try {
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                
+                p.setMatricula(rs.getLong("matricula"));
+                p.setNome(rs.getString("nome"));
+                p.setRg(rs.getLong("rg"));
+                p.setCpf(rs.getString("cpf"));
+                p.setEndereco(eDAO.getOne(rs.getLong("idEndereco")));
+                p.setTelefone(tDAO.getOne(rs.getLong("idTelefone")));
+                p.setFormacao(rs.getString("formacao"));
+                p.setEmail(rs.getString("email"));
+                p.setSenha(rs.getString("senha"));
+                p.setAcesso(rs.getInt("acesso"));
+                p.mostrar(1);
+                
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao filtrar professor");
+            e.printStackTrace();
+            return null;
+        }
+        return p;
     }
 
     @Override
@@ -83,12 +115,77 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
 
     @Override
     public ArrayList<Professor> filtrar(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        ArrayList<Professor> professores = new ArrayList<>();
+        String sql = "SELECT * FROM FacProfessor WHERE matricula = ?";
+        
+        try {
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Professor p = new Professor();
+                p.setMatricula(rs.getLong("matricula"));
+                p.setNome(rs.getString("nome"));
+                p.setRg(rs.getLong("rg"));
+                p.setCpf(rs.getString("cpf"));
+                p.setEndereco(eDAO.getOne(rs.getLong("idEndereco")));
+                p.setTelefone(tDAO.getOne(rs.getLong("idTelefone")));
+                p.setFormacao(rs.getString("formacao"));
+                p.setEmail(rs.getString("email"));
+                p.setSenha(rs.getString("senha"));
+                p.setAcesso(rs.getInt("acesso"));
+                p.mostrar(1);
+                professores.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao filtrar professor");
+            e.printStackTrace();
+            return null;
+        }
+        return professores;
     }
 
     @Override
     public ArrayList<Professor> filtrar(String texto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static ArrayList<Professor> getAll(){
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        ArrayList<Professor> professores = new ArrayList<>();
+        String sql = "SELECT * FROM FacProfessor";
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                Professor p = new Professor();
+                p.setMatricula(rs.getLong("matricula"));
+                p.setNome(rs.getString("nome"));
+                p.setRg(rs.getLong("rg"));
+                p.setCpf(rs.getString("cpf"));
+                Endereco e = eDAO.getOne(rs.getLong("idEndereco"));
+                p.setEndereco(e);
+                Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
+                p.setTelefone(t);
+                //p.setEndereco(eDAO.getOne(rs.getLong("idEndereco")));
+               // p.setTelefone(tDAO.getOne(rs.getLong("idTelefone")));
+                p.setFormacao(rs.getString("formacao"));
+                p.setEmail(rs.getString("email"));
+                p.setSenha(rs.getString("senha"));
+                p.setAcesso(rs.getInt("acesso"));
+                p.mostrar(1);
+                professores.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao mostrar todos os professores");
+            e.printStackTrace();
+            return null;
+        }
+        return professores;
     }
     
 }

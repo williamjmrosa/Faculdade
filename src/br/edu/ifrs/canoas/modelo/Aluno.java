@@ -61,15 +61,27 @@ public class Aluno extends Pessoa{
     public void setResponsavel(Responsavel responsavel) {
         this.responsavel = responsavel;
     }
-
+    
     @Override
-    public String toString() {
-        return  super.toString()+
+    public void mostrar(int s) {
+        if(s == 1){
+            
+            super.setTexto(super.getMatricula() + " - " +super.getNome());
+        }else{
+            super.setTexto(super.toString()+
                 "\nData Nascimento: "+dataNascimento.getDia()+"/"+dataNascimento.getMes()+"/"+dataNascimento.getAno()+
                 "\nCurso:"+curso.toString()+
                 "\nEndereco: "+getEndereco().toString()+
-                "\nTelefone: "+getTelefone().toString();
+                "\nTelefone: "+getTelefone().toString());
+        }
     }
+    
+    @Override
+    public String toString() {
+        return  super.getTexto();
+    }
+
+    
     
     
 }
