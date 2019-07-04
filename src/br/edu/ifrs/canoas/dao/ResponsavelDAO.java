@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.canoas.dao;
 
+import br.edu.ifrs.canoas.controle.Logado;
 import br.edu.ifrs.canoas.modelo.Responsavel;
 import br.edu.ifrs.canoas.modelo.Telefone;
 import br.edu.ifrs.canoas.persistencia.Conexao;
@@ -21,12 +22,37 @@ import java.util.ArrayList;
  */
 public class ResponsavelDAO extends AbstractDAO<Responsavel> {
 
-    //private static TelefoneDAO tDAO = new TelefoneDAO();
-    //private static EnderecoDAO eDAO = new EnderecoDAO();
+    private static TelefoneDAO tDAO = new TelefoneDAO();
 
     @Override
-    public Responsavel getOne(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Responsavel getOne(Long id) throws SQLException{
+        Responsavel r = new Responsavel();
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        String sql = "SELECT * FROM FacResponsavel WHERE idResponsavel = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                
+                r.setIdResponsavel(rs.getLong("idResponsavel"));
+                r.setNome(rs.getString("nome"));
+                r.setRg(rs.getLong("rg"));
+                r.setCpf(rs.getString("cpf"));
+                r.setEmail(rs.getString("email"));
+                r.setSenha(rs.getString("senha"));
+                r.setAcesso(rs.getInt("acesso"));
+                
+                Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
+                r.setTelefone(t);
+                
+            }
+        } catch (SQLException e) {
+            
+            throw new SQLException("Erro ao buscar Responsavel expecifico! \n"+e.getMessage());
+        }
+        return r;
     }
     
     public Responsavel getOne(String cpf) {
@@ -34,7 +60,6 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "SELECT * FROM FacResponsavel WHERE cpf = ?";
-        TelefoneDAO tDAO = new TelefoneDAO();
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, cpf);
@@ -67,7 +92,6 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         Connection con = c.getConexao();
         String sql = "INSERT INTO FacResponsavel(idResponsavel,nome,rg,cpf,idTelefone,email,senha,acesso) "
                 + "VALUES(facIdResponsavel.nextval,?,?,?,?,?,?,?)";
-        TelefoneDAO tDAO = new TelefoneDAO();
         try {
             Telefone t = o.getTelefone();
             t.setIdTelefone(tDAO.insert(t));
@@ -83,7 +107,7 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
                 ps.setLong(4, o.getTelefone().getIdTelefone());
                 ps.setString(5, o.getEmail());
                 ps.setString(6, o.getSenha());
-                ps.setInt(7, 3);
+                ps.setInt(7, o.getAcesso());
                 ps.executeUpdate();
                 
                 ResultSet rs = ps.getGeneratedKeys();
@@ -153,4 +177,35 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         return responsaveis;
     }
 
+    public static boolean login(String cpf, String senha) throws SQLException{
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        String sql = "SELECT * FROM FacFuncionario where matricula = ? and senha = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, cpf);
+            ps.setString(2, senha);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Responsavel r = new Responsavel();
+                r.setIdResponsavel(rs.getLong("idResponsavel"));
+                r.setNome(rs.getString("nome"));
+                r.setRg(rs.getLong("rg"));
+                r.setCpf(rs.getString("cpf"));
+                r.setEmail(rs.getString("email"));
+                r.setSenha(rs.getString("senha"));
+                r.setAcesso(rs.getInt("acesso"));
+                Telefone t = tDAO.getOne(r.getTelefone().getIdTelefone());
+                r.setTelefone(t);
+                Logado.setR(r);
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erro no login: "+e.getMessage());
+            
+        }
+        return false;
+        
+    }
+    
 }

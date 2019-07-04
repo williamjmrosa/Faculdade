@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.canoas.dao;
 
+import br.edu.ifrs.canoas.controle.Logado;
 import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Telefone;
@@ -171,8 +172,6 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
                 p.setEndereco(e);
                 Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
                 p.setTelefone(t);
-                //p.setEndereco(eDAO.getOne(rs.getLong("idEndereco")));
-               // p.setTelefone(tDAO.getOne(rs.getLong("idTelefone")));
                 p.setFormacao(rs.getString("formacao"));
                 p.setEmail(rs.getString("email"));
                 p.setSenha(rs.getString("senha"));
@@ -186,6 +185,41 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
             return null;
         }
         return professores;
+    }
+    
+    public static boolean login(Long matricula, String senha) throws SQLException{
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        String sql = "SELECT * FROM FacProfessor where matricula = ? and senha = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, matricula);
+            ps.setString(2, senha);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Professor p = new Professor();
+                p.setMatricula(rs.getLong("matricula"));
+                p.setNome(rs.getString("nome"));
+                p.setRg(rs.getLong("rg"));
+                p.setCpf(rs.getString("cpf"));
+                Endereco e = eDAO.getOne(rs.getLong("idEndereco"));
+                p.setEndereco(e);
+                Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
+                p.setTelefone(t);
+                p.setFormacao(rs.getString("formacao"));
+                p.setEmail(rs.getString("email"));
+                p.setSenha(rs.getString("senha"));
+                p.setAcesso(rs.getInt("acesso"));
+                p.mostrar(1);
+                Logado.setP(p);
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erro no login: "+e.getMessage());
+            
+        }
+        return false;
+        
     }
     
 }

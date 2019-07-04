@@ -44,7 +44,7 @@ public class TelaInicial extends Application {
         
         st = stage;
         
-        Parent root = FXMLLoader.load(getClass().getResource("TelaInicial.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         
         Scene scene = new Scene(root);
         

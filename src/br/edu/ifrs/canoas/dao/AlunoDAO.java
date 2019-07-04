@@ -5,13 +5,17 @@
  */
 package br.edu.ifrs.canoas.dao;
 
+import br.edu.ifrs.canoas.controle.Logado;
 import br.edu.ifrs.canoas.modelo.Aluno;
+import br.edu.ifrs.canoas.modelo.Curso;
 import br.edu.ifrs.canoas.modelo.Endereco;
+import br.edu.ifrs.canoas.modelo.Responsavel;
 import br.edu.ifrs.canoas.modelo.Telefone;
 import br.edu.ifrs.canoas.persistencia.Conexao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
@@ -23,12 +27,44 @@ import java.util.ArrayList;
  */
 public class AlunoDAO extends AbstractDAO<Aluno> {
 
-    private EnderecoDAO eDAO = new EnderecoDAO();
-    private TelefoneDAO tDAO = new TelefoneDAO();
+    private static EnderecoDAO eDAO = new EnderecoDAO();
+    private static TelefoneDAO tDAO = new TelefoneDAO();
+    private static CursoDAO cDAO = new CursoDAO();
+    private static ResponsavelDAO rDAO = new ResponsavelDAO();
 
     @Override
-    public Aluno getOne(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Aluno getOne(Long id) throws SQLException{
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        Aluno a = new Aluno();
+        String sql = "SELECT * FROM FacAluno WHERE matricula = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                a.setMatricula(rs.getLong("matricula"));
+                a.setNome(rs.getString("nome"));
+                a.setRg(rs.getLong("rg"));
+                a.setCpf(rs.getString("cpf"));
+                a.setDataNascimento(rs.getString("dataNascimento"));
+                Endereco e = eDAO.getOne(rs.getLong("idEndereco"));
+                a.setEndereco(e);
+                Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
+                a.setTelefone(t);
+                Curso cu = cDAO.getOne(rs.getLong("idCurso"));
+                a.setCurso(cu);
+                Responsavel r = rDAO.getOne(rs.getLong("idResponsavel"));
+                a.setResponsavel(r);
+                a.setEmail(rs.getString("email"));
+                a.setAcesso(rs.getInt("acesso"));
+                
+            }
+            
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao buscar aluno expecifico! \n"+e.getMessage());
+        }
+        return a;
     }
 
     @Override
@@ -99,6 +135,43 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
     @Override
     public ArrayList<Aluno> filtrar(String texto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static boolean login(Long matricula, String senha) throws SQLException,Exception{
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        String sql = "SELECT * FROM FacAluno where matricula = ? and senha = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, matricula);
+            ps.setString(2, senha);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Aluno a = new Aluno();
+                a.setMatricula(rs.getLong("matricula"));
+                a.setNome(rs.getString("nome"));
+                a.setRg(rs.getLong("rg"));
+                a.setCpf(rs.getString("cpf"));
+                a.setDataNascimento(rs.getString("dataNascimento"));
+                Endereco e = eDAO.getOne(rs.getLong("idEndereco"));
+                a.setEndereco(e);
+                Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
+                a.setTelefone(t);
+                Curso cu = cDAO.getOne(rs.getLong("idCurso"));
+                a.setCurso(cu);
+                Responsavel r = rDAO.getOne(rs.getLong("idResponsavel"));
+                a.setResponsavel(r);
+                a.setEmail(rs.getString("email"));
+                a.setAcesso(rs.getInt("acesso"));
+                Logado.setP(a);
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erro no login: "+e.getMessage());
+            
+        }
+        return false;
+        
     }
 
 }

@@ -61,6 +61,11 @@ public class TelaInicialController implements Initializable {
         TelaInicial.trocaTela("CadastroTurma.fxml");
     }
 
+    @FXML
+    private void telaCadFuncionario(ActionEvent event) {
+        TelaInicial.trocaTela("CadastroFuncionario.fxml");
+    }
+
     
     
 }

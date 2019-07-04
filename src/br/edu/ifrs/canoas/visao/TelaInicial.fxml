@@ -17,6 +17,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#telaAddDisciplinaCurso" text="Adicionar Disciplina a Curso" />
                   <MenuItem mnemonicParsing="false" onAction="#telaCadAluno" text="Cadastrar Aluno" />
                   <MenuItem mnemonicParsing="false" onAction="#telaCadTurma" text="Cadastrar Turma" />
+                  <MenuItem mnemonicParsing="false" onAction="#telaCadFuncionario" text="Cadastrar Funcionario" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Editar">

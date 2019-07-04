@@ -24,10 +24,6 @@ public class Conexao {
     private String senha = "6060wj";
     private String servidor = "oracle.canoas.ifrs.edu.br";
     private int porta = 1521;
-
-    private static final String URL = "jdbc:mysql://localhost:3306/faculdade";
-    private static final String USUARIO = "root";
-    private static final String SENHA = "12345";
     
     private Connection conexao = null;
 
@@ -58,22 +54,6 @@ public class Conexao {
 
         }
         return conexao;
-    }
-    
-    public Connection getConexao1() throws SQLException{
-        
-        Connection c = null;
-        
-        try {
-            c = DriverManager.getConnection(URL, USUARIO, SENHA);
-        } catch (SQLException se) {
-            
-            throw new SQLException("Erro ao conectar no Banco de Dados! " + se.getMessage());
-            
-        }
-        
-        return c;
-        
     }
 
     public void desconecta() {

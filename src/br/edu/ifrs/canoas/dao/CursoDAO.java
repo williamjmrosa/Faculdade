@@ -22,7 +22,30 @@ public class CursoDAO extends AbstractDAO<Curso>{
 
     @Override
     public Curso getOne(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexao conexao = new Conexao();
+        Connection con = conexao.getConexao();
+        Curso cu = new Curso();
+        String sql = "SELECT * FROM FACCURSO WHERE IDCURSO = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                cu.setIdCurso(rs.getLong("idCurso"));
+                cu.setNome(rs.getString("nome"));
+                cu.setDescricao(rs.getString("descricao"));
+                cu.mostrar(1);
+            }
+            
+        } catch (SQLException e) {
+            
+            System.out.println("Erro ao buscar Curso expecifico");
+            e.printStackTrace();
+            return null;
+        }
+        return cu;
     }
 
     @Override

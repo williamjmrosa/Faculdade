@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.canoas.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -13,17 +14,17 @@ import java.util.ArrayList;
  */
 public abstract class AbstractDAO<T> {
        
-    public abstract T getOne(Long id);
+    public abstract T getOne(Long id) throws SQLException;
     
-    public abstract Long insert(T o);
+    public abstract Long insert(T o) throws SQLException;
     
-    public abstract boolean delete(T o);
+    public abstract boolean delete(T o) throws SQLException;
     
-    public abstract boolean update(T o);
+    public abstract boolean update(T o) throws SQLException;
     
-    public abstract ArrayList<T> buscar(Long id);
+    public abstract ArrayList<T> buscar(Long id) throws SQLException;
     
-    public abstract ArrayList<T> filtrar(Long id);
+    public abstract ArrayList<T> filtrar(Long id) throws SQLException;
     
-    public abstract ArrayList<T> filtrar(String texto);
+    public abstract ArrayList<T> filtrar(String texto) throws SQLException;
 }

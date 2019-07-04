@@ -106,6 +106,20 @@ primary key(idNota),
 foreign key(matriculaAluno) references FacAluno(matricula),
 foreign key(matriculaProfessor) references FacProfessor(matricula));
 
+create table FacFuncionario(
+matricula number not null,
+nome varchar2(60) not null,
+rg number not null unique,
+cpf varchar2(12) not null unique,
+idEndereco number not null,
+idTelefone number not null,
+email varchar(25) not null,
+senha varchar(25) not null,
+acesso number not null,
+primary key(matricula),
+foreign key(idEndereco) references FacEndereco(idEndereco),
+foreign key(idTelefone) references FacTelefone(idTelefone));
+
 CREATE SEQUENCE facIdEndereco;
 CREATE SEQUENCE facIdTelefone;
 CREATE SEQUENCE facIdCurso;
