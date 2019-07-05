@@ -35,7 +35,7 @@ public class EnderecoDAO extends AbstractDAO<Endereco> {
                 e.setIdEndereco(rs.getLong("idEndereco"));
                 e.setCep(rs.getString("cep"));
                 e.setBairro(rs.getString("bairro"));
-                e.setCidade("cidade");
+                e.setCidade(rs.getString("cidade"));
                 e.setEstado(rs.getString("estado"));
                 e.setNumero(rs.getInt("numero"));
                 e.setRua(rs.getString("rua"));

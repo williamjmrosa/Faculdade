@@ -136,6 +136,8 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> {
                 f.setEmail(rs.getString("email"));
                 f.setSenha(rs.getString("senha"));
                 f.setAcesso(rs.getInt("acesso"));
+                f.mostrar(0);
+                Logado.setPessoa(f);
                 return true;
             }
         } catch (SQLException e) {

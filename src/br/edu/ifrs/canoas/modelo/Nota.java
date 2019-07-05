@@ -76,6 +76,10 @@ public class Nota {
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
     }
+    
+    public double getMedia(){
+        return calcularNota();
+    }
 
     public double calcularNota(){
         return (nota1+nota2+nota3)/3;

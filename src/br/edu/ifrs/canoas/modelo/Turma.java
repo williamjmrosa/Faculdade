@@ -24,7 +24,15 @@ public class Turma {
         this.professor = professor;
         this.disciplina = disciplina;
     }
-    
+
+    public int getIdTurma() {
+        return idTurma;
+    }
+
+    public void setIdTurma(int idTurma) {
+        this.idTurma = idTurma;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -48,6 +56,8 @@ public class Turma {
     public void setDisciplina(Disciplina disciplina) {
         this.disciplina = disciplina;
     }
+    
+    
 
     public void addDisciplina(Disciplina dis){
         this.disciplina = dis;

@@ -47,7 +47,11 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
                 a.setNome(rs.getString("nome"));
                 a.setRg(rs.getLong("rg"));
                 a.setCpf(rs.getString("cpf"));
-                a.setDataNascimento(rs.getString("dataNascimento"));
+                //LocalDate ld = LocalDate.parse();
+                String texto = rs.getString("dataNascimento");
+                String[] partes = texto.substring(0,10).split("-");
+                String data = partes[2]+"/"+partes[1]+"/"+partes[0]; 
+                a.setDataNascimento(data);
                 Endereco e = eDAO.getOne(rs.getLong("idEndereco"));
                 a.setEndereco(e);
                 Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
@@ -58,6 +62,7 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
                 a.setResponsavel(r);
                 a.setEmail(rs.getString("email"));
                 a.setAcesso(rs.getInt("acesso"));
+                a.mostrar(0);
                 
             }
             
@@ -152,7 +157,13 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
                 a.setNome(rs.getString("nome"));
                 a.setRg(rs.getLong("rg"));
                 a.setCpf(rs.getString("cpf"));
-                a.setDataNascimento(rs.getString("dataNascimento"));
+                //LocalDate ld = LocalDate.parse();
+                String texto = rs.getString("dataNascimento");
+                String[] partes = texto.substring(0,10).split("-");
+                
+                
+                String data = partes[2]+"/"+partes[1]+"/"+partes[0]; 
+                a.setDataNascimento(data);
                 Endereco e = eDAO.getOne(rs.getLong("idEndereco"));
                 a.setEndereco(e);
                 Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
@@ -162,12 +173,14 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
                 Responsavel r = rDAO.getOne(rs.getLong("idResponsavel"));
                 a.setResponsavel(r);
                 a.setEmail(rs.getString("email"));
+                a.setSenha(rs.getString("senha"));
                 a.setAcesso(rs.getInt("acesso"));
-                Logado.setP(a);
+                a.mostrar(0);
+                Logado.setPessoa(a);
                 return true;
             }
         } catch (SQLException e) {
-            throw new SQLException("Erro no login: "+e.getMessage());
+            throw new SQLException("Erro no login: \n"+e.getMessage());
             
         }
         return false;

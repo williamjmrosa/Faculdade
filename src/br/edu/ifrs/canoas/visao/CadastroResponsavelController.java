@@ -60,6 +60,7 @@ public class CadastroResponsavelController implements Initializable {
         t.setTipo(telTipo.getText());
         t.setNumero(telNumero.getText());
         r.setTelefone(t);
+        r.setAcesso(3);
         ResponsavelDAO rDAO = new ResponsavelDAO();
         r.setIdResponsavel(rDAO.insert(r));
         if(r.getIdResponsavel() != -1){

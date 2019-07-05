@@ -21,8 +21,24 @@ import java.util.ArrayList;
 public class DisciplinaDAO extends AbstractDAO<Disciplina> {
 
     @Override
-    public Disciplina getOne(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Disciplina getOne(Long id) throws SQLException{
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        Disciplina d = new Disciplina();
+        String sql = "SELECT * FROM FacDisciplina WHERE idDisciplina = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                d.setIdDisciplina(rs.getLong("idDisciplina"));
+                d.setNome(rs.getString("nome"));
+                d.setDescricao(rs.getString("descricao"));
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erro no buscar disciplina expecifica! \n"+e.getMessage());
+        }
+        return d;
     }
 
     @Override

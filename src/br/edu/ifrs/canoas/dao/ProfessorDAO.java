@@ -210,8 +210,8 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
                 p.setEmail(rs.getString("email"));
                 p.setSenha(rs.getString("senha"));
                 p.setAcesso(rs.getInt("acesso"));
-                p.mostrar(1);
-                Logado.setP(p);
+                p.mostrar(0);
+                Logado.setPessoa(p);
                 return true;
             }
         } catch (SQLException e) {

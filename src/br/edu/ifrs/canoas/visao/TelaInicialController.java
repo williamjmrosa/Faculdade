@@ -5,6 +5,11 @@
  */
 package br.edu.ifrs.canoas.visao;
 
+import br.edu.ifrs.canoas.controle.Logado;
+import br.edu.ifrs.canoas.modelo.Aluno;
+import br.edu.ifrs.canoas.modelo.Funcionario;
+import br.edu.ifrs.canoas.modelo.Professor;
+import br.edu.ifrs.canoas.modelo.Responsavel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -22,13 +27,26 @@ import javafx.scene.control.TextField;
 public class TelaInicialController implements Initializable {
     
     
-    private TextField nomeCurso;
-    private TextArea descricaoCurso;
-    private Label mensagem;
+    @FXML
+    private Label descricao;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        if(Logado.getTipo() == 0){
+            Funcionario f = Logado.getFuncionario();
+            descricao.setText(f.toString());
+        }else if(Logado.getTipo() == 1){
+            Professor p = Logado.getProfessor();
+            descricao.setText(p.toString());
+        }else if(Logado.getTipo() == 2){
+            Aluno a = Logado.getAluno();
+            System.out.println("AQUI");
+            descricao.setText(a.toString());
+        }else if(Logado.getTipo() == 3){
+            Responsavel r = Logado.getResponsavel();
+            descricao.setText(r.toString());
+        }
     }   
     
     @FXML
@@ -64,6 +82,11 @@ public class TelaInicialController implements Initializable {
     @FXML
     private void telaCadFuncionario(ActionEvent event) {
         TelaInicial.trocaTela("CadastroFuncionario.fxml");
+    }
+
+    @FXML
+    private void telaAddAlunoTurma(ActionEvent event) {
+        TelaInicial.trocaTela("AdicionarAlunoTurma.fxml");
     }
 
     

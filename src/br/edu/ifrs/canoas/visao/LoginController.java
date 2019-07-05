@@ -6,6 +6,9 @@
 package br.edu.ifrs.canoas.visao;
 
 import br.edu.ifrs.canoas.dao.AlunoDAO;
+import br.edu.ifrs.canoas.dao.FuncionarioDAO;
+import br.edu.ifrs.canoas.dao.ProfessorDAO;
+import br.edu.ifrs.canoas.dao.ResponsavelDAO;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -60,21 +63,25 @@ public class LoginController implements Initializable {
     private void logar(ActionEvent event) {
         try {
             if(tipo == 1){
-                
+                if (!ProfessorDAO.login(Long.parseLong(matricula.getText()), senha.getText())){
+                    throw new Exception("Matricula e senha estão incorretos");
+                }
             }else if(tipo == 2){
-                
-            }else if(tipo == 3){
                 if(!AlunoDAO.login(Long.parseLong(matricula.getText()), senha.getText())){
-                    throw new Exception("Matricula e senha esta incorreta");
+                    
+                    throw new Exception("Matricula e senha estão incorretos");
+                }
+            }else if(tipo == 3){
+                if (!ResponsavelDAO.login(matricula.getText(), senha.getText())){
+                    throw new Exception("Matricula e senha estão incorretos");
                 }
             }else if(tipo == 4){
-                
-            }else if(tipo == 5){
-                
+                if (!FuncionarioDAO.login(Long.parseLong(matricula.getText()), senha.getText()));
             }else{
-                
+                throw new Exception("Escolha o tipo de acesso");
             }
-                
+            
+            TelaInicial.trocaTela("TelaInicial.fxml");
             
         } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -86,31 +93,30 @@ public class LoginController implements Initializable {
 
     @FXML
     private void cadastrarFuncionario(ActionEvent event) {
+        TelaInicial.trocaTela("CadastroFuncionario.fxml");
+    }
+
+    @FXML
+    private void professor(ActionEvent event) {
         tipo = 1;
         usuario.setText("Matricula");
     }
 
     @FXML
-    private void professor(ActionEvent event) {
+    private void aluno(ActionEvent event) {
         tipo = 2;
         usuario.setText("Matricula");
     }
 
     @FXML
-    private void aluno(ActionEvent event) {
-        tipo = 3;
-        usuario.setText("Matricula");
-    }
-
-    @FXML
     private void responsavel(ActionEvent event) {
-        tipo = 4;
-        usuario.setText("cpf");
+        tipo = 3;
+        usuario.setText("CPF");
     }
 
     @FXML
     private void funcionario(ActionEvent event) {
-        tipo = 5;
+        tipo = 4;
         usuario.setText("Matricula");
     }
     

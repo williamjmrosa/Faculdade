@@ -180,7 +180,7 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
     public static boolean login(String cpf, String senha) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
-        String sql = "SELECT * FROM FacFuncionario where matricula = ? and senha = ?";
+        String sql = "SELECT * FROM FacResponsavel where cpf = ? and senha = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, cpf);
@@ -195,9 +195,9 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
                 r.setEmail(rs.getString("email"));
                 r.setSenha(rs.getString("senha"));
                 r.setAcesso(rs.getInt("acesso"));
-                Telefone t = tDAO.getOne(r.getTelefone().getIdTelefone());
+                Telefone t = tDAO.getOne(rs.getLong("idTelefone"));
                 r.setTelefone(t);
-                Logado.setR(r);
+                Logado.setResponsavel(r);
                 return true;
             }
         } catch (SQLException e) {

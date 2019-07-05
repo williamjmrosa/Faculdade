@@ -104,7 +104,8 @@ public class Responsavel {
                 "\nCPF: "+cpf+
                 "\nE-mail: "+email+
                 "\nSenha: "+senha+
-                "\nAcesso: "+acesso;
+                "\nAcesso: "+acesso+
+                "\nTelefone: "+telefone.toString();
     }
     
 }
