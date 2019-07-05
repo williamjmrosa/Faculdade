@@ -52,15 +52,17 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
                 p.mostrar(1);
                 
             }
+            return p;
         } catch (SQLException e) {
-            System.out.println("Erro ao filtrar professor");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao filtrar professor! "+e.getMessage());
+            //System.out.println("Erro ao filtrar professor");
+            //e.printStackTrace();
+            //return null;
         }finally{
             c.desconecta();
             con.close();
         }
-        return p;
+        
     }
 
     @Override
@@ -94,15 +96,17 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
                 
                 ps.executeUpdate();
             }
+            return o.getMatricula();
         } catch (SQLException e) {
-            System.out.println("Deu problema Professor");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Deu problema Professor! "+e.getMessage());
+            //System.out.println("Deu problema Professor");
+            //e.printStackTrace();
+            //return -1L;
         }finally{
             c.desconecta();
             con.close();
         }
-        return o.getMatricula();
+        
     }
 
     @Override
@@ -147,15 +151,17 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
                 p.mostrar(1);
                 professores.add(p);
             }
+            return professores;
         } catch (SQLException e) {
-            System.out.println("Erro ao filtrar professor");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao filtrar professor! "+e.getMessage());
+            //System.out.println("Erro ao filtrar professor");
+            //e.printStackTrace();
+            //return null;
         }finally{
             c.desconecta();
             con.close();
         }
-        return professores;
+        
     }
 
     @Override
@@ -188,15 +194,17 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
                 p.mostrar(1);
                 professores.add(p);
             }
+            return professores;
         } catch (SQLException e) {
-            System.out.println("Erro ao mostrar todos os professores");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao mostrar todos os professores! "+e.getMessage());
+            //System.out.println("Erro ao mostrar todos os professores");
+            //e.printStackTrace();
+            //return null;
         }finally{
             c.desconecta();
             con.close();
         }
-        return professores;
+        
     }
     
     public static boolean login(Long matricula, String senha) throws SQLException{

@@ -58,7 +58,10 @@ public class AdicionarAlunoTurmaController implements Initializable {
                 listaTurma.getItems().add(t);
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERRO");
+                    alert.setHeaderText(ex.getMessage());
+                    alert.show();
         }
         matricula.setText(String.valueOf(Logado.getAluno().getMatricula()));
         nome.setText(Logado.getAluno().getNome());

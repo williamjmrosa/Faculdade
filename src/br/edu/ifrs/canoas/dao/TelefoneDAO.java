@@ -34,15 +34,17 @@ public class TelefoneDAO extends AbstractDAO<Telefone>{
                 t.setNumero(rs.getString("numero"));
                 t.setTipo(rs.getString("tipo"));
             }
+            return t;
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar teleone expecifico");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao buscar telefone expecifico! "+e.getMessage());
+            //System.out.println("Erro ao buscar teleone expecifico");
+            //e.printStackTrace();
+            //return null;
         }finally{
             c.desconecta();
             con.close();
         }
-        return t;
+        
     }
 
     @Override
@@ -63,15 +65,17 @@ public class TelefoneDAO extends AbstractDAO<Telefone>{
             if(rs.next()){
                 o.setIdTelefone(rs.getLong(1));
             }
+            return o.getIdTelefone();
         } catch (SQLException e) {
-            System.out.println("Deu problema no telefone!");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Deu problema no telefone"+e.getMessage());
+            //System.out.println("Deu problema no telefone!");
+            //e.printStackTrace();
+            //return -1L;
         }finally{
             c.desconecta();
             con.close();
         }
-        return o.getIdTelefone();
+        
     }
 
     @Override

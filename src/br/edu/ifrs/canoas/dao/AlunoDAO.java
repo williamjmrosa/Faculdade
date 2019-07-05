@@ -73,7 +73,7 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
     }
 
     @Override
-    public Long insert(Aluno o) {
+    public Long insert(Aluno o) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
 
@@ -88,7 +88,7 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
             t.setIdTelefone(tDAO.insert(t));
             o.setTelefone(t);
 
-            if (t.getIdTelefone() != -1 && e.getIdEndereco() != -1) {
+            if (t.getIdTelefone() != 0 && e.getIdEndereco() != 0) {
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setLong(1, o.getMatricula());
                 ps.setString(2, o.getNome());
@@ -105,16 +105,16 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
                 ps.setInt(12, o.getAcesso());
 
                 ps.executeUpdate();
-            }else{
-                return -1L;
             }
+            return 0L;
         } catch (SQLException e) {
-            System.out.println("Erro no cadastro de Aluno");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Erro no cadastro de Aluno! "+e.getMessage());
+            //System.out.println("Erro no cadastro de Aluno");
+            //e.printStackTrace();
+            //return -1L;
         }
 
-        return 0L;
+        
     }
 
     @Override
@@ -142,7 +142,7 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public static boolean login(Long matricula, String senha) throws SQLException,Exception{
+    public static boolean login(Long matricula, String senha) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "SELECT * FROM FacAluno where matricula = ? and senha = ?";
@@ -182,6 +182,9 @@ public class AlunoDAO extends AbstractDAO<Aluno> {
         } catch (SQLException e) {
             throw new SQLException("Erro no login: \n"+e.getMessage());
             
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return false;
         

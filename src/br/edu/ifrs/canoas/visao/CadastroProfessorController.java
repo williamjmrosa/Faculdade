@@ -13,13 +13,18 @@ import br.edu.ifrs.canoas.modelo.Curso;
 import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Telefone;
+import br.edu.ifrs.canoas.util.Validacao;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -67,6 +72,9 @@ public class CadastroProfessorController implements Initializable, ViaCEPEvents 
     private TextField telNumero;
     @FXML
     private TextField fomacao;
+    private Alert alert;
+    private ButtonType sim = new ButtonType("Sim");
+    private ButtonType nao = new ButtonType("Não");
     /**
      * Initializes the controller class.
      */
@@ -76,35 +84,46 @@ public class CadastroProfessorController implements Initializable, ViaCEPEvents 
     }
 
     @FXML
-    private void cadastrarProfessor(ActionEvent event) throws SQLException {
-        ProfessorDAO pDAO = new ProfessorDAO();
-        Professor p = new Professor();
-        p.setMatricula(Long.parseLong(matricula.getText()));
-        p.setNome(nome.getText());
-        p.setRg(Long.parseLong(rg.getText()));
-        p.setFormacao(fomacao.getText());
-        p.setCpf(cpf.getText());
-        p.setEmail(email.getText());
-        p.setSenha(senha.getText());
-        p.setAcesso(1);
-        Endereco e = new Endereco();
-        //e.setIdEndereco(p.getMatricula());
-        e.setCep(cep.getText());
-        e.setRua(rua.getText());
-        e.setNumero(Integer.parseInt(numero.getText()));
-        e.setBairro(bairro.getText());
-        e.setCidade(cidade.getText());
-        e.setEstado(estado.getText());
-        Telefone t = new Telefone();
-        t.setIdTelefone(p.getMatricula());
-        t.setTipo(telTipo.getText());
-        t.setNumero(telNumero.getText());
-        p.setEndereco(e);
-        p.setTelefone(t);
-        if(pDAO.insert(p) != -1){
-            mensagem.setText(" Professor Cadastrado");
-        }else{
-            mensagem.setText(" Erro no Cadastro do Professor");
+    private void cadastrarProfessor(ActionEvent event) {
+        try {
+            ProfessorDAO pDAO = new ProfessorDAO();
+            Professor p = new Professor();
+            p.setMatricula(Long.parseLong(matricula.getText()));
+            p.setNome(nome.getText());
+            p.setRg(Long.parseLong(rg.getText()));
+            p.setFormacao(fomacao.getText());
+            p.setCpf(cpf.getText());
+            p.setEmail(email.getText());
+           
+                p.setSenha(senha.getText());
+            
+            p.setAcesso(1);
+            Endereco e = new Endereco();
+            //e.setIdEndereco(p.getMatricula());
+            e.setCep(cep.getText());
+            e.setRua(rua.getText());
+            e.setNumero(Integer.parseInt(numero.getText()));
+            e.setBairro(bairro.getText());
+            e.setCidade(cidade.getText());
+            e.setEstado(estado.getText());
+            Telefone t = new Telefone();
+            t.setIdTelefone(p.getMatricula());
+            t.setTipo(telTipo.getText());
+            t.setNumero(telNumero.getText());
+            p.setEndereco(e);
+            p.setTelefone(t);
+            pDAO.insert(p);
+            
+            alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Informação");
+                                alert.setHeaderText("Professor cadastrado");
+                                alert.showAndWait();
+            
+        } catch (Exception ex) {
+            alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("ERRO");
+                            alert.setHeaderText(ex.getMessage());
+                            alert.show();
         }
     
     }

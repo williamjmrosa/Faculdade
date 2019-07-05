@@ -84,10 +84,28 @@ public class TelaInicialController implements Initializable {
     private Pane paneNota;
     @FXML
     private MenuItem telaAddAlunoTurma;
+    @FXML
+    private MenuItem professor;
+    @FXML
+    private MenuItem curso;
+    @FXML
+    private MenuItem disciplina;
+    @FXML
+    private MenuItem disciplinaCurso;
+    @FXML
+    private MenuItem turma;
+    @FXML
+    private MenuItem funcionario;
+    @FXML
+    private MenuItem alunoMenu;
+    Nota n = new Nota();
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            if(Logado.getPessoa() == null && Logado.getResponsavel() == null){
+                TelaInicial.trocaTela("Login.fxml");
+            }
             // TODO
             listNota = table.getItems();
             colNome.setCellValueFactory(new PropertyValueFactory("nome"));
@@ -100,6 +118,14 @@ public class TelaInicialController implements Initializable {
                 case 0:
                     Funcionario f = Logado.getFuncionario();
                     descricao.setText(f.toString());
+                    professor.setVisible(true);
+                    curso.setVisible(true);
+                    disciplina.setVisible(true);
+                    disciplinaCurso.setVisible(true);
+                    alunoMenu.setVisible(true);
+                    turma.setVisible(true);
+                    funcionario.setVisible(true);
+                    
                     break;
                 case 1:
                     Professor p = Logado.getProfessor();
@@ -181,9 +207,10 @@ public class TelaInicialController implements Initializable {
     @FXML
     private void selecionar(MouseEvent event) {
         NotaDAO nDAO = new NotaDAO();
+        listNota.clear();
         try {
-            for(Nota n :nDAO.buscar(listTurma.getSelectionModel().getSelectedItem().getIdTurma())){
-                listNota.add(n);
+            for(Nota no :nDAO.buscar(listTurma.getSelectionModel().getSelectedItem().getIdTurma())){
+                listNota.add(no);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -192,7 +219,7 @@ public class TelaInicialController implements Initializable {
 
     @FXML
     private void selecionaNota(MouseEvent event) {
-        Nota n = table.getSelectionModel().getSelectedItem();
+        n = table.getSelectionModel().getSelectedItem();
         aluno.setText(n.getAluno().getNome());
         n1.setText(String.valueOf(n.getNota1()));
         n2.setText(String.valueOf(n.getNota2()));
@@ -204,7 +231,7 @@ public class TelaInicialController implements Initializable {
     private void atualizarNota(ActionEvent event) {
         try {
             NotaDAO nDAO = new NotaDAO();
-            Nota n = table.getSelectionModel().getSelectedItem();
+            //Nota n = table.getSelectionModel().getSelectedItem();
             n.setNota1(Double.parseDouble(n1.getText()));
             n.setNota2(Double.parseDouble(n2.getText()));
             n.setNota3(Double.parseDouble(n3.getText()));

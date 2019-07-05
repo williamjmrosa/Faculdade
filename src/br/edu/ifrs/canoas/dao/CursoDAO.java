@@ -38,17 +38,17 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 cu.setDescricao(rs.getString("descricao"));
                 cu.mostrar(1);
             }
-            
+            return cu;
         } catch (SQLException e) {
-            
-            System.out.println("Erro ao buscar Curso expecifico");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao buscar Curso expeficico"+e.getMessage());
+            //System.out.println("Erro ao buscar Curso expecifico");
+            //e.printStackTrace();
+            //return null;
         }finally{
             conexao.desconecta();
             con.close();
         }
-        return cu;
+        
     }
 
     @Override
@@ -65,16 +65,18 @@ public class CursoDAO extends AbstractDAO<Curso>{
             ps.setString(1, o.getNome());
             ps.setString(2, o.getDescricao());
             ps.executeUpdate();
+            return 0L;
         } catch (SQLException e) {
-            System.out.println("Deu erro Curso");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Erro ao cadastrar Curso! "+e.getMessage());
+            //System.out.println("Deu erro Curso");
+            //e.printStackTrace();
+            //return -1L;
         }finally{
             c.desconecta();
             con.close();
         }
         
-        return 1L;
+        
     }
 
     @Override
@@ -93,7 +95,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
     }
     
     @Override
-    public ArrayList<Curso> filtrar(Long id) {
+    public ArrayList<Curso> filtrar(Long id) throws SQLException{
         ArrayList<Curso> cursos = new ArrayList<>();
         
         Conexao conexao = new Conexao();
@@ -114,18 +116,21 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 c.mostrar(1);
                 cursos.add(c);
             }
-            
+            return cursos;
         } catch (SQLException e) {
-            
-            System.out.println("Erro ao filtrar Curso");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao filtrar Curso! "+e.getMessage());
+            //System.out.println("Erro ao filtrar Curso");
+            //e.printStackTrace();
+            //return null;
+        }finally{
+            conexao.desconecta();
+            con.close();
         }
-        return cursos;
+        
     }
 
     @Override
-    public ArrayList<Curso> filtrar(String texto) {
+    public ArrayList<Curso> filtrar(String texto) throws SQLException{
         ArrayList<Curso> cursos = new ArrayList<>();
         
         Conexao conexao = new Conexao();
@@ -146,14 +151,17 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 c.mostrar(1);
                 cursos.add(c);
             }
-            
+            return cursos;
         } catch (SQLException e) {
-            
-            System.out.println("Erro ao filtrar Curso");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao filtrar Curso! "+e.getMessage());
+            //System.out.println("Erro ao filtrar Curso");
+            //e.printStackTrace();
+            //return null;
+        }finally{
+            conexao.desconecta();
+            con.close();
         }
-        return cursos;
+        
     }
     
     public static ArrayList<Curso> getALL() throws SQLException{
@@ -176,17 +184,17 @@ public class CursoDAO extends AbstractDAO<Curso>{
                 c.mostrar(1);
                 cursos.add(c);
             }
-            
+            return cursos;
         } catch (SQLException e) {
-            
-            System.out.println("Erro ao filtrar Curso");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao filtrar Curso! "+e.getMessage());
+            //System.out.println("Erro ao filtrar Curso");
+            //e.printStackTrace();
+            //return null;
         }finally{
             conexao.desconecta();
             con.close();
         }
-        return cursos;
+        
     }
     
     

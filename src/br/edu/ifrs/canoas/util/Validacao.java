@@ -25,15 +25,19 @@ public class Validacao {
         return c.matches("^[0-9]{5,5}([- ]?[0-9]{3,3})$");
     }
 
-    public static boolean validarSenha(String c) {
-        return c.matches("^.{6,25}$");
+    public static boolean validarSenha(String c) throws Exception{
+        if(c.matches("^.{6,25}$")){
+            return true;
+        }else{
+            throw new Exception("Srnha deve ter no minimo 6 Caracteres");
+        }
     }
     
-    public static boolean verificaSenhaIgual(String senha1, String senha2){
+    public static boolean verificaSenhaIgual(String senha1, String senha2) throws Exception{
         if(senha1.equals(senha2)){
             return true;
         }else{
-            return false;
+            throw new Exception("Senha não conhecidem");
         }
         
     }

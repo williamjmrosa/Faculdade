@@ -18,21 +18,17 @@
         <menus>
           <Menu mnemonicParsing="false" text="Cadastrar">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#telaCadProfessor" text="Cadastrar Professor" />
-                  <MenuItem mnemonicParsing="false" onAction="#telaCadCurso" text="Cadastrar Curso" />
-                  <MenuItem mnemonicParsing="false" onAction="#telaCadDisciplina" text="Cadastrar Disciplina" />
-                  <MenuItem mnemonicParsing="false" onAction="#telaAddDisciplinaCurso" text="Adicionar Disciplina a Curso" />
-                  <MenuItem mnemonicParsing="false" onAction="#telaCadAluno" text="Cadastrar Aluno" />
-                  <MenuItem mnemonicParsing="false" onAction="#telaCadTurma" text="Cadastrar Turma" />
-                  <MenuItem mnemonicParsing="false" onAction="#telaCadFuncionario" text="Cadastrar Funcionario" />
+              <MenuItem fx:id="professor" mnemonicParsing="false" onAction="#telaCadProfessor" text="Cadastrar Professor" visible="false" />
+                  <MenuItem fx:id="curso" mnemonicParsing="false" onAction="#telaCadCurso" text="Cadastrar Curso" visible="false" />
+                  <MenuItem fx:id="disciplina" mnemonicParsing="false" onAction="#telaCadDisciplina" text="Cadastrar Disciplina" visible="false" />
+                  <MenuItem fx:id="disciplinaCurso" mnemonicParsing="false" onAction="#telaAddDisciplinaCurso" text="Adicionar Disciplina a Curso" visible="false" />
+                  <MenuItem fx:id="alunoMenu" mnemonicParsing="false" onAction="#telaCadAluno" text="Cadastrar Aluno" visible="false" />
+                  <MenuItem fx:id="turma" mnemonicParsing="false" onAction="#telaCadTurma" text="Cadastrar Turma" visible="false" />
+                  <MenuItem fx:id="funcionario" mnemonicParsing="false" onAction="#telaCadFuncionario" text="Cadastrar Funcionario" visible="false" />
                   <MenuItem fx:id="telaAddAlunoTurma" mnemonicParsing="false" onAction="#telaAddAlunoTurma" text="Adicionar Aluno a Turma" visible="false" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Editar">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+          <Menu mnemonicParsing="false" text="Editar" />
           <Menu mnemonicParsing="false" text="Sair">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#telaLogin" text="Logout" />
@@ -41,10 +37,10 @@
         </menus>
       </MenuBar>
       <Label fx:id="descricao" alignment="TOP_LEFT" layoutX="14.0" layoutY="33.0" prefHeight="446.0" prefWidth="268.0" />
-      <TableView fx:id="table" layoutX="475.0" layoutY="80.0" onMouseClicked="#selecionaNota" prefHeight="200.0" prefWidth="490.0">
+      <TableView fx:id="table" layoutX="475.0" layoutY="80.0" onMouseClicked="#selecionaNota" prefHeight="200.0" prefWidth="527.0">
         <columns>
-          <TableColumn fx:id="colNome" prefWidth="258.0" text="Nome" />
-            <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="colNome" prefWidth="269.0" text="Nome" />
+            <TableColumn fx:id="colId" prefWidth="64.0" text="ID" />
           <TableColumn fx:id="colNota1" minWidth="0.0" prefWidth="60.0" text="Nota 1" />
             <TableColumn fx:id="colNota2" prefWidth="56.0" text="Nota 2" />
             <TableColumn fx:id="colNota3" prefWidth="56.0" text="Nota 3" />

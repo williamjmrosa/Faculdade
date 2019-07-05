@@ -42,9 +42,10 @@ public class EnderecoDAO extends AbstractDAO<Endereco> {
             }
             return e;
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar endereço expecifico");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao buscar endereço expecifico! "+e.getMessage());
+            //System.out.println("Erro ao buscar endereço expecifico");
+            //e.printStackTrace();
+            //return null;
         }finally{
             c.desconecta();
             con.close();
@@ -75,16 +76,17 @@ public class EnderecoDAO extends AbstractDAO<Endereco> {
             if(rs.next()){
                 o.setIdEndereco(rs.getLong(1));
             }
-            
+            return o.getIdEndereco();
         } catch (SQLException e) {
-            System.out.println("Deu erro no endereço");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Deu erro no endereço! "+e.getMessage());
+            //System.out.println("Deu erro no endereço");
+            //e.printStackTrace();
+            //return -1L;
         }finally{
             c.desconecta();
             con.close();
         }
-        return o.getIdEndereco();
+        
     }
 
     @Override

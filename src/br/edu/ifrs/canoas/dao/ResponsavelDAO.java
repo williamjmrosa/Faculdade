@@ -48,6 +48,7 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
                 r.setTelefone(t);
                 
             }
+            return r;
         } catch (SQLException e) {
             
             throw new SQLException("Erro ao buscar Responsavel expecifico! \n"+e.getMessage());
@@ -55,7 +56,7 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
             c.desconecta();
             con.close();
         }
-        return r;
+        
     }
     
     public Responsavel getOne(String cpf) throws SQLException {
@@ -81,15 +82,17 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
                 r.setTelefone(t);
                 
             }
+            return r;
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar responsaveis");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao buscar responcaveis"+e.getMessage());
+            //System.out.println("Erro ao buscar responsaveis");
+            //e.printStackTrace();
+            //return null;
         }finally{
             c.desconecta();
             con.close();
         }
-        return r;
+        
     }
 
     @Override
@@ -121,15 +124,17 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
                     o.setIdResponsavel(rs.getLong(1));
                 }
             }
+            return o.getIdResponsavel();
         } catch (SQLException e) {
-            System.out.println("Erro ao Cadastrar Responsavel");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Erro ao Cadastrar Responsavel! "+e.getMessage());
+            //System.out.println("Erro ao Cadastrar Responsavel");
+            //e.printStackTrace();
+            //return -1L;
         }finally{
             c.desconecta();
             con.close();
         }
-        return o.getIdResponsavel();
+        
     }
 
     @Override
@@ -178,15 +183,18 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
                 
                 Telefone t = tDAO.getOne(r.getTelefone().getIdTelefone());
                 r.setTelefone(t);
+                responsaveis.add(r);
             }
+            return responsaveis;
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar responsaveis");
-            e.printStackTrace();
+            throw new SQLException("Erro ao buscar responsaveis! "+e.getMessage());
+            //System.out.println("Erro ao buscar responsaveis");
+            //e.printStackTrace();
         }finally{
             c.desconecta();
             con.close();
         }
-        return responsaveis;
+        
     }
 
     public static boolean login(String cpf, String senha) throws SQLException{
@@ -215,6 +223,9 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         } catch (SQLException e) {
             throw new SQLException("Erro no login: "+e.getMessage());
             
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return false;
         

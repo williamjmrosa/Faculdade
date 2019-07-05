@@ -76,7 +76,7 @@ public class CadastroFuncionarioController implements Initializable, ViaCEPEvent
     }
 
     @FXML
-    private void cadastrarFuncionario(ActionEvent event) throws Exception {
+    private void cadastrarFuncionario(ActionEvent event) {
         try {
             FuncionarioDAO fDAO = new FuncionarioDAO();
             Funcionario f = new Funcionario();
@@ -129,7 +129,7 @@ public class CadastroFuncionarioController implements Initializable, ViaCEPEvent
 
     @FXML
     private void voltar(ActionEvent event) {
-        TelaInicial.trocaTela("TelaInicial.fxml");
+        TelaInicial.trocaTela("Login.fxml");
     }
 
     @Override

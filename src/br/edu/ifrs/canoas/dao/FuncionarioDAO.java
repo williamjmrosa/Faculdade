@@ -48,10 +48,11 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> {
                 f.setSenha(rs.getString("senha"));
                 f.setAcesso(rs.getInt("acesso"));
             }
+            return f;
         } catch (SQLException e) {
             throw new SQLException("Erro no busca de funcionario expecifico! \n"+e.getMessage());
         }
-        return f;
+        
     }
 
     @Override
@@ -79,13 +80,16 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> {
             ps.setString(8, o.getSenha());
             ps.setInt(9, o.getAcesso());
             ps.executeUpdate();
-
+            return o.getMatricula();
         } catch (SQLException e) {
-            o.setMatricula(-1L);
+            //o.setMatricula(-1L);
             throw new SQLException("Erro ao cadastrar Funcionario! " + e.getMessage());
 
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return o.getMatricula();
+        
 
     }
 

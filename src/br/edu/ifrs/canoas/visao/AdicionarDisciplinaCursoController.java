@@ -77,21 +77,24 @@ public class AdicionarDisciplinaCursoController implements Initializable {
             ComboCurso.getItems().add("Nome");
             comboDisciplina.getItems().add("ID");
             comboDisciplina.getItems().add("Nome");
-            
+
             ComboCurso.getSelectionModel().select(0);
             comboDisciplina.getSelectionModel().select(0);
             for (Curso c : CursoDAO.getALL()) {
                 //c.mostrar(1);
                 listCurso.getItems().add(c);
-                
+
             }
-            
+
             for (Disciplina d : DisciplinaDAO.getALL()) {
                 //d.mostrar(1);
                 listDisciplina.getItems().add(d);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AdicionarDisciplinaCursoController.class.getName()).log(Level.SEVERE, null, ex);
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(ex.getMessage());
+            alert.show();
         }
 
     }
@@ -106,19 +109,31 @@ public class AdicionarDisciplinaCursoController implements Initializable {
         alert.getButtonTypes().setAll(sim, nao);
         alert.showAndWait().ifPresent(b -> {
             if (b == sim) {
-                if (cdDAO.insert(c) == 0) {
-                    alert  = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Informação");
-                    alert.setHeaderText("Disciplinas adicionadas ao curso");
-                    alert.showAndWait();
-                    //mensagem.setText("Disciplinas adicionadas ao curso");
-                } else {
-                    mensagem.setText("Erro ao adicionar disciplina");
+                try {
+                    if (cdDAO.insert(c) == 0) {
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Informação");
+                        alert.setHeaderText("Disciplinas adicionadas ao curso");
+                        alert.showAndWait();
+                        //mensagem.setText("Disciplinas adicionadas ao curso");
+                    }
+                } catch (SQLException ex) {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERRO");
+                    alert.setHeaderText(ex.getMessage());
+                    alert.show();
                 }
-            }else if(b == nao){
+            } else if (b == nao) {
                 listDisciplinaCurso.getItems().clear();
-                for(Disciplina d : cdDAO.buscar(c.getIdCurso())){
-                    listDisciplinaCurso.getItems().add(d);
+                try {
+                    for (Disciplina d : cdDAO.buscar(c.getIdCurso())) {
+                        listDisciplinaCurso.getItems().add(d);
+                    }
+                } catch (SQLException ex) {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERRO");
+                    alert.setHeaderText(ex.getMessage());
+                    alert.show();
                 }
             }
         });
@@ -131,42 +146,57 @@ public class AdicionarDisciplinaCursoController implements Initializable {
     }
 
     @FXML
-    private void filtrarCurso(ActionEvent event) throws SQLException {
+    private void filtrarCurso(ActionEvent event) {
+        try {
 
-        CursoDAO cDAO = new CursoDAO();
-        listCurso.getItems().clear();
-        if (filtroCurso.getText().isEmpty()) {
-            for (Curso c : CursoDAO.getALL()) {
-                listCurso.getItems().add(c);
+            CursoDAO cDAO = new CursoDAO();
+            listCurso.getItems().clear();
+            if (filtroCurso.getText().isEmpty()) {
+                for (Curso c : CursoDAO.getALL()) {
+                    listCurso.getItems().add(c);
+                }
+            } else if (ComboCurso.getSelectionModel().getSelectedItem().equalsIgnoreCase("ID")) {
+                for (Curso c : cDAO.filtrar(Long.parseLong(filtroCurso.getText()))) {
+                    listCurso.getItems().add(c);
+                }
+            } else {
+                for (Curso c : cDAO.filtrar(filtroCurso.getText())) {
+                    listCurso.getItems().add(c);
+                }
             }
-        } else if (ComboCurso.getSelectionModel().getSelectedItem().equalsIgnoreCase("ID")) {
-            for (Curso c : cDAO.filtrar(Long.parseLong(filtroCurso.getText()))) {
-                listCurso.getItems().add(c);
-            }
-        } else {
-            for (Curso c : cDAO.filtrar(filtroCurso.getText())) {
-                listCurso.getItems().add(c);
-            }
+        } catch (SQLException e) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(e.getMessage());
+            alert.show();
         }
 
     }
 
     @FXML
     private void filtrarDisciplina(ActionEvent event) {
-        DisciplinaDAO dDAO = new DisciplinaDAO();
-        listDisciplina.getItems().clear();
-        if (filtroDisciplina.getText().isEmpty()) {
-            for (Disciplina d : DisciplinaDAO.getALL()) {
-                listDisciplina.getItems().add(d);
+        try {
+
+            DisciplinaDAO dDAO = new DisciplinaDAO();
+            listDisciplina.getItems().clear();
+            if (filtroDisciplina.getText().isEmpty()) {
+                for (Disciplina d : DisciplinaDAO.getALL()) {
+                    listDisciplina.getItems().add(d);
+                }
+            } else if (comboDisciplina.getSelectionModel().getSelectedItem().equalsIgnoreCase("ID")) {
+                for (Disciplina d : dDAO.filtrar(Long.parseLong(filtroDisciplina.getText()))) {
+                    listDisciplina.getItems().add(d);
+                }
+            } else {
+                for (Disciplina d : dDAO.filtrar(filtroDisciplina.getText())) {
+                    listDisciplina.getItems().add(d);
+                }
             }
-        } else if (comboDisciplina.getSelectionModel().getSelectedItem().equalsIgnoreCase("ID")) {
-            for (Disciplina d : dDAO.filtrar(Long.parseLong(filtroDisciplina.getText()))) {
-                listDisciplina.getItems().add(d);
-            }
-        } else {
-            for (Disciplina d : dDAO.filtrar(filtroDisciplina.getText())) {
-                listDisciplina.getItems().add(d);
-            }
+        } catch (Exception e) {
+            alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERRO");
+                    alert.setHeaderText(e.getMessage());
+                    alert.show();
         }
 
     }
@@ -184,7 +214,7 @@ public class AdicionarDisciplinaCursoController implements Initializable {
             alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Alerta");
             alert.setHeaderText("Selecione Primeiro um curso");
-            alert.showAndWait();
+            alert.show();
         } else {
             Disciplina d = listDisciplina.getSelectionModel().getSelectedItem();
             if (c.getL().indexOf(d) == -1) {
@@ -202,9 +232,16 @@ public class AdicionarDisciplinaCursoController implements Initializable {
         descricao.setText(c.getDescricao());
         CursoDisciplinaDAO cdDAO = new CursoDisciplinaDAO();
         listDisciplinaCurso.getItems().clear();
-        for (Disciplina d : cdDAO.buscar(c.getIdCurso())) {
-            listDisciplinaCurso.getItems().add(d);
-            c.addDisciplina(d);
+        try {
+            for (Disciplina d : cdDAO.buscar(c.getIdCurso())) {
+                listDisciplinaCurso.getItems().add(d);
+                c.addDisciplina(d);
+            }
+        } catch (SQLException ex) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(ex.getMessage());
+            alert.show();
         }
     }
 

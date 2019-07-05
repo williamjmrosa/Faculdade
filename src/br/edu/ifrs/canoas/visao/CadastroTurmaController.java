@@ -63,45 +63,64 @@ public class CadastroTurmaController implements Initializable {
             for (Disciplina d : DisciplinaDAO.getALL()) {
                 listDis.getItems().add(d);
             }
-            
+
             for (Professor p : ProfessorDAO.getAll()) {
                 listProf.getItems().add(p);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CadastroTurmaController.class.getName()).log(Level.SEVERE, null, ex);
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(ex.getMessage());
+            alert.show();
         }
     }
 
     @FXML
-    private void pesquisarProfessor(ActionEvent event) throws SQLException {
-        listProf.getItems().clear();
-        if (matriculaPesquisa.getText().isEmpty()) {
-            for (Professor p : ProfessorDAO.getAll()) {
-                listProf.getItems().add(p);
-            }
-        } else {
-            ProfessorDAO pDAO = new ProfessorDAO();
-            Professor p = pDAO.getOne(Long.parseLong(matriculaPesquisa.getText()));
-            listProf.getItems().add(p);
-            matricula.setText(String.valueOf(p.getMatricula()));
-            nome.setText(p.getNome());
-            listProf.getSelectionModel().select(p);
+    private void pesquisarProfessor(ActionEvent event) {
+        try {
 
+            listProf.getItems().clear();
+            if (matriculaPesquisa.getText().isEmpty()) {
+                for (Professor p : ProfessorDAO.getAll()) {
+                    listProf.getItems().add(p);
+                }
+            } else {
+                ProfessorDAO pDAO = new ProfessorDAO();
+                Professor p = pDAO.getOne(Long.parseLong(matriculaPesquisa.getText()));
+                listProf.getItems().add(p);
+                matricula.setText(String.valueOf(p.getMatricula()));
+                nome.setText(p.getNome());
+                listProf.getSelectionModel().select(p);
+
+            }
+        } catch (Exception e) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(e.getMessage());
+            alert.show();
         }
     }
 
     @FXML
     private void pesquisarDisciplina(ActionEvent event) {
-        listDis.getItems().clear();
-        if (nomePesquisa.getText().isEmpty()) {
-            for (Disciplina d : DisciplinaDAO.getALL()) {
-                listDis.getItems().add(d);
+        try {
+
+            listDis.getItems().clear();
+            if (nomePesquisa.getText().isEmpty()) {
+                for (Disciplina d : DisciplinaDAO.getALL()) {
+                    listDis.getItems().add(d);
+                }
+            } else {
+                DisciplinaDAO dDAO = new DisciplinaDAO();
+                for (Disciplina d : dDAO.filtrar(nomePesquisa.getText())) {
+                    listDis.getItems().add(d);
+                }
             }
-        } else {
-            DisciplinaDAO dDAO = new DisciplinaDAO();
-            for (Disciplina d : dDAO.filtrar(nomePesquisa.getText())) {
-                listDis.getItems().add(d);
-            }
+        } catch (SQLException e) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(e.getMessage());
+            alert.show();
         }
     }
 

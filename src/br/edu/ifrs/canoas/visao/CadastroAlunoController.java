@@ -101,12 +101,8 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            // TODO
-            listar();
-        } catch (SQLException ex) {
-            Logger.getLogger(CadastroAlunoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO
+        listar();
         radioButto();
         recuperar();
 
@@ -124,11 +120,18 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
         }
     }
 
-    private void listar() throws SQLException {
-        comboCurso.getItems().add(0, new Curso());
-        comboCurso.getSelectionModel().select(0);
-        for (Curso c : CursoDAO.getALL()) {
-            comboCurso.getItems().add(c);
+    private void listar() {
+        try {
+            comboCurso.getItems().add(0, new Curso());
+            comboCurso.getSelectionModel().select(0);
+            for (Curso c : CursoDAO.getALL()) {
+                comboCurso.getItems().add(c);
+            }
+        } catch (SQLException ex) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(ex.getMessage());
+            alert.show();
         }
     }
 
@@ -144,12 +147,19 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
     }
 
     @FXML
-    private void buscar(ActionEvent event) throws SQLException {
-        ResponsavelDAO rDAO = new ResponsavelDAO();
-        a = new Aluno();
-        Responsavel r = rDAO.getOne(responsavelCpf.getText());
-        a.setResponsavel(r);
-        mostrarResponsavel.setText(a.getResponsavel().toString());
+    private void buscar(ActionEvent event) {
+        try {
+            ResponsavelDAO rDAO = new ResponsavelDAO();
+            a = new Aluno();
+            Responsavel r = rDAO.getOne(responsavelCpf.getText());
+            a.setResponsavel(r);
+            mostrarResponsavel.setText(a.getResponsavel().toString());
+        } catch (SQLException ex) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText(ex.getMessage());
+            alert.show();
+        }
     }
 
     @FXML
@@ -197,20 +207,22 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
                 alert.getButtonTypes().setAll(sim, nao);
                 alert.showAndWait().ifPresent(b -> {
                     if (b == sim) {
-                        if (aDAO.insert(a) != -1) {
-                            alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Informação");
-                            alert.setHeaderText("Cadastro concluido");
-                            alert.showAndWait();
-                        } else {
+                        try {
+                            aDAO.insert(a);
+                                alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Informação");
+                                alert.setHeaderText("Cadastro concluido");
+                                alert.showAndWait();
+                            
+                        } catch (SQLException ex) {
                             alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Erro");
-                            alert.setHeaderText("Erro no cadastro");
-                            alert.showAndWait();
+                            alert.setTitle("ERRO");
+                            alert.setHeaderText(ex.getMessage());
+                            alert.show();
                         }
                     }
                 });
-            }else{
+            } else {
                 alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Aviso");
                 alert.setHeaderText("Selecione um Curso");
@@ -266,7 +278,7 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
             estado.setText(a.getEndereco().getEstado());
             telTipo.setText(a.getTelefone().getTipo());
             telNumero.setText(a.getTelefone().getNumero());
-            dataNasc.setText(a.getDataNascimento().getDia()+"/"+a.getDataNascimento().getMes()+"/"+a.getDataNascimento().getAno());
+            dataNasc.setText(a.getDataNascimento().getDia() + "/" + a.getDataNascimento().getMes() + "/" + a.getDataNascimento().getAno());
             mostrarResponsavel.setText(a.getResponsavel().toString());
         }
     }

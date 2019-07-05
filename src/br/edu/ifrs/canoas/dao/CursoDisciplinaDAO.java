@@ -20,14 +20,15 @@ import java.util.ArrayList;
  */
 public class CursoDisciplinaDAO {
 
-    public Long insert(Curso o) {
-        if(delete(o.getIdCurso())){
+    public Long insert(Curso o) throws SQLException{
+        
             Conexao c = new Conexao();
             Connection con = c.getConexao();
 
             String sql = "INSERT INTO FacCursoDisciplina(idDisciplina,idCurso) VALUES(?,?)";
 
             try{
+                delete(o.getIdCurso());
                 for(int i = 0;i< o.getL().size();i++){
                     PreparedStatement ps = con.prepareStatement(sql);
                     ps.setLong(1, o.getL().get(i).getIdDisciplina());
@@ -35,19 +36,16 @@ public class CursoDisciplinaDAO {
 
                     ps.executeUpdate();
                 }            
-
+                return 0L;
             }catch(SQLException e){
-                System.out.println("Erro cadastro CursoDisciplina");
-                e.printStackTrace();
-                return -1L;
+                throw new SQLException("Erro no Curso Disciplina! "+e.getMessage());
+                //System.out.println("Erro cadastro CursoDisciplina");
+                //e.printStackTrace();
+                //return -1L;
             }
-            return 0L;
-        }else{
-            return -1L;
-        }
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(Long id) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "DELETE FROM FacCursoDisciplina WHERE idCurso = ?";
@@ -55,17 +53,22 @@ public class CursoDisciplinaDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             ps.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            System.out.println("Erro ao Excluir disciplina do curso");
+           throw new SQLException("Erro ao deletar disciplina do curso! "+e.getMessage());
+            //System.out.println("Erro ao Excluir disciplina do curso");
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return true;
+        
     }
 
     public boolean update(Curso o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public ArrayList<Disciplina> buscar(Long id) {
+    public ArrayList<Disciplina> buscar(Long id) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         ArrayList<Disciplina> disciplinas = new ArrayList<>();
@@ -82,12 +85,17 @@ public class CursoDisciplinaDAO {
                 d.mostrar(1);
                 disciplinas.add(d);
             }
+            return disciplinas;
         } catch (SQLException e) {
-            System.out.println("Erro ao Buscar");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Ero ao buscar! "+e.getMessage());
+            //System.out.println("Erro ao Buscar");
+            //e.printStackTrace();
+            
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return disciplinas;
+        
     }
     
     public ArrayList<Curso> filtrar(Long id) {

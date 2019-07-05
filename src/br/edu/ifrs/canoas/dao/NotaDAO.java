@@ -53,13 +53,13 @@ public class NotaDAO{
     public boolean update(Nota o) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
-        String sql = "UPDATE FacNota SET nota1 = ?, nota2 = ?, nota3 = ? where idNota = ?";
+        String sql = "UPDATE FacNota SET nota1 = ?, nota2 = ?, nota3 = ? where (idNota = ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setLong(1, o.getIdNota());
-            ps.setDouble(2, o.getNota1());
-            ps.setDouble(3, o.getNota2());
-            ps.setDouble(4, o.getNota3());
+            ps.setDouble(1, o.getNota1());
+            ps.setDouble(2, o.getNota2());
+            ps.setDouble(3, o.getNota3());
+            ps.setLong(4, o.getIdNota());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {

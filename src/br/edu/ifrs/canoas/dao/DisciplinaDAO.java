@@ -35,14 +35,18 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 d.setNome(rs.getString("nome"));
                 d.setDescricao(rs.getString("descricao"));
             }
+            return d;
         } catch (SQLException e) {
             throw new SQLException("Erro no buscar disciplina expecifica! \n"+e.getMessage());
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return d;
+        
     }
 
     @Override
-    public Long insert(Disciplina o) {
+    public Long insert(Disciplina o) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         
@@ -56,14 +60,18 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
             ps.setString(2, o.getDescricao());
             
             ps.executeUpdate(); 
-            
+            return 1L;
         } catch (SQLException e) {
-            System.out.println("Erro ao Cadastrar Curso");
-            e.printStackTrace();
-            return -1L;
+            throw new SQLException("Erro ao Cadastrar Curso! "+e.getMessage());
+            //System.out.println("Erro ao Cadastrar Curso");
+            //e.printStackTrace();
+            //return -1L;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         
-        return 1L;
+        
     }
 
     @Override
@@ -82,7 +90,7 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
     }
 
     @Override
-    public ArrayList<Disciplina> filtrar(Long id) {
+    public ArrayList<Disciplina> filtrar(Long id) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         ArrayList<Disciplina> disciplinas = new ArrayList<>();
@@ -103,16 +111,20 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 disciplinas.add(d);
                 
             }
-            
+            return disciplinas;
         } catch (SQLException e) {
-            System.out.println("Erro ao filtrar");
-            return null;
+            throw new SQLException("Erro ao filtrar! "+e.getMessage());
+            //System.out.println("Erro ao filtrar");
+            //return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return disciplinas;
+        
     }
 
     @Override
-    public ArrayList<Disciplina> filtrar(String texto) {
+    public ArrayList<Disciplina> filtrar(String texto) throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         ArrayList<Disciplina> disciplinas = new ArrayList<>();
@@ -129,15 +141,20 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 d.mostrar(1);
                 disciplinas.add(d);
             }
+            return disciplinas;
         } catch (SQLException e) {
-            System.out.println("Erro ao filtrar");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao filtrar! "+e.getMessage());
+            //System.out.println("Erro ao filtrar");
+            //e.printStackTrace();
+            //return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return disciplinas;
+        
     }
     
-    public static ArrayList<Disciplina> getALL(){
+    public static ArrayList<Disciplina> getALL() throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         ArrayList<Disciplina> disciplinas = new ArrayList<>();
@@ -156,13 +173,18 @@ public class DisciplinaDAO extends AbstractDAO<Disciplina> {
                 disciplinas.add(d);
                 
             }
+            return disciplinas;
             
         } catch (SQLException e) {
-            System.out.println("Erro ao Listar disciplinas");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("Erro ao Listar disciplinas! "+e.getMessage());
+            //System.out.println("Erro ao Listar disciplinas");
+            //e.printStackTrace();
+            //return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
-        return disciplinas;
+        
     }
     
 }
