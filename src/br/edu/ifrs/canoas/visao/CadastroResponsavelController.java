@@ -9,6 +9,7 @@ import br.edu.ifrs.canoas.dao.ResponsavelDAO;
 import br.edu.ifrs.canoas.modelo.Responsavel;
 import br.edu.ifrs.canoas.modelo.Telefone;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +50,7 @@ public class CadastroResponsavelController implements Initializable {
     }
 
     @FXML
-    private void cadastrarResponsavel(ActionEvent event) {
+    private void cadastrarResponsavel(ActionEvent event) throws SQLException {
         Responsavel r = new Responsavel();
         r.setNome(nome.getText());
         r.setCpf(cpf.getText());

@@ -101,10 +101,10 @@ nota1 number(4,2) not null,
 nota2 number(4,2) not null,
 nota3 number(4,2) not null,
 matriculaAluno number not null,
-matriculaProfessor number not null,
+idTurma number not null,
 primary key(idNota),
 foreign key(matriculaAluno) references FacAluno(matricula),
-foreign key(matriculaProfessor) references FacProfessor(matricula));
+foreign key(idTurma) references FacTurma(idTurma));
 
 create table FacFuncionario(
 matricula number not null,

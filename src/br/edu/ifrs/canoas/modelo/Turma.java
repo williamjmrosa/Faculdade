@@ -10,26 +10,27 @@ package br.edu.ifrs.canoas.modelo;
  * @author William José
  */
 public class Turma {
-    private int idTurma;
+    private Long idTurma;
     private String nome;
     private Professor professor;
     private Disciplina disciplina;
+    private String texto;
 
     public Turma() {
     }
 
-    public Turma(int idTurma, String nome, Professor professor, Disciplina disciplina) {
+    public Turma(Long idTurma, String nome, Professor professor, Disciplina disciplina) {
         this.idTurma = idTurma;
         this.nome = nome;
         this.professor = professor;
         this.disciplina = disciplina;
     }
 
-    public int getIdTurma() {
+    public Long getIdTurma() {
         return idTurma;
     }
 
-    public void setIdTurma(int idTurma) {
+    public void setIdTurma(Long idTurma) {
         this.idTurma = idTurma;
     }
 
@@ -67,11 +68,19 @@ public class Turma {
         this.professor = pro;
     }
     
-    @Override
-    public String toString() {
-        return "\nNome: "+nome+
+    public void mostrar(int s){
+        if (s == 1){
+            texto = "Nome: "+nome+
                 "\nDisciplina: "+disciplina.toString()+
                 "\nProfessor: "+professor.toString();
+        }else{
+            texto = nome + " - "+disciplina.getNome();
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return texto;
     }
     
     

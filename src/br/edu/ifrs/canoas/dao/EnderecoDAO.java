@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class EnderecoDAO extends AbstractDAO<Endereco> {
 
     @Override
-    public Endereco getOne(Long id) {
+    public Endereco getOne(Long id) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         
@@ -45,12 +45,15 @@ public class EnderecoDAO extends AbstractDAO<Endereco> {
             System.out.println("Erro ao buscar endereço expecifico");
             e.printStackTrace();
             return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
          
     }
 
     @Override
-    public Long insert(Endereco o) {
+    public Long insert(Endereco o) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "INSERT INTO FacEndereco(idEndereco,rua,cidade,bairro,estado,numero,cep)"
@@ -77,6 +80,9 @@ public class EnderecoDAO extends AbstractDAO<Endereco> {
             System.out.println("Deu erro no endereço");
             e.printStackTrace();
             return -1L;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return o.getIdEndereco();
     }

@@ -6,18 +6,36 @@
 package br.edu.ifrs.canoas.visao;
 
 import br.edu.ifrs.canoas.controle.Logado;
+import br.edu.ifrs.canoas.dao.NotaDAO;
+import br.edu.ifrs.canoas.dao.TurmaDAO;
 import br.edu.ifrs.canoas.modelo.Aluno;
 import br.edu.ifrs.canoas.modelo.Funcionario;
+import br.edu.ifrs.canoas.modelo.Nota;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Responsavel;
+import br.edu.ifrs.canoas.modelo.Turma;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -29,24 +47,88 @@ public class TelaInicialController implements Initializable {
     
     @FXML
     private Label descricao;
+    @FXML
+    private TableView<Nota> table;
+    @FXML
+    private TableColumn<?, ?> colNome;
+    @FXML
+    private TableColumn<?, ?> colNota1;
+    @FXML
+    private TableColumn<?, ?> colNota2;
+    @FXML
+    private TableColumn<?, ?> colNota3;
+    @FXML
+    private TableColumn<?, ?> colMedia;
+    @FXML
+    private Pane paneTurma;
+    @FXML
+    private ListView<Turma> listTurma;
+    private ObservableList listNota;
+    private TurmaDAO tDAO = new TurmaDAO();
+    @FXML
+    private TableColumn<?, ?> colId;
+    @FXML
+    private TextField n1;
+    @FXML
+    private TextField n2;
+    @FXML
+    private TextField n3;
+    @FXML
+    private TextField aluno;
+    @FXML
+    private Button AtualizarNota;
+    private Alert alert;
+    private ButtonType sim = new ButtonType("Sim");
+    private ButtonType nao = new ButtonType("Não");
+    @FXML
+    private Pane paneNota;
+    @FXML
+    private MenuItem telaAddAlunoTurma;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        if(Logado.getTipo() == 0){
-            Funcionario f = Logado.getFuncionario();
-            descricao.setText(f.toString());
-        }else if(Logado.getTipo() == 1){
-            Professor p = Logado.getProfessor();
-            descricao.setText(p.toString());
-        }else if(Logado.getTipo() == 2){
-            Aluno a = Logado.getAluno();
-            System.out.println("AQUI");
-            descricao.setText(a.toString());
-        }else if(Logado.getTipo() == 3){
-            Responsavel r = Logado.getResponsavel();
-            descricao.setText(r.toString());
+        try {
+            // TODO
+            listNota = table.getItems();
+            colNome.setCellValueFactory(new PropertyValueFactory("nome"));
+            colId.setCellValueFactory(new PropertyValueFactory("idNota"));
+            colNota1.setCellValueFactory(new PropertyValueFactory("nota1"));
+            colNota2.setCellValueFactory(new PropertyValueFactory("nota2"));
+            colNota3.setCellValueFactory(new PropertyValueFactory("nota3"));
+            colMedia.setCellValueFactory(new PropertyValueFactory("media"));
+            switch (Logado.getTipo()) {
+                case 0:
+                    Funcionario f = Logado.getFuncionario();
+                    descricao.setText(f.toString());
+                    break;
+                case 1:
+                    Professor p = Logado.getProfessor();
+                    paneTurma.setVisible(true);
+                    paneNota.setVisible(true);
+                    for(Turma t : tDAO.buscar(p.getMatricula())){
+                        t.mostrar(0);
+                        listTurma.getItems().add(t);
+                    }
+                    
+                    descricao.setText(p.toString());
+                    break;
+                case 2:
+                    Aluno a = Logado.getAluno();
+                    descricao.setText(a.toString());
+                    telaAddAlunoTurma.setVisible(true);
+                    break;
+                case 3:
+                    Responsavel r = Logado.getResponsavel();
+                    descricao.setText(r.toString());
+                    break;
+                default:
+                    break;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
+        
+        
     }   
     
     @FXML
@@ -87,6 +169,63 @@ public class TelaInicialController implements Initializable {
     @FXML
     private void telaAddAlunoTurma(ActionEvent event) {
         TelaInicial.trocaTela("AdicionarAlunoTurma.fxml");
+    }
+
+    @FXML
+    private void telaLogin(ActionEvent event) {
+        Logado.setPessoa(null);
+        Logado.setResponsavel(null);
+        TelaInicial.trocaTela("Login.fxml");
+    }
+
+    @FXML
+    private void selecionar(MouseEvent event) {
+        NotaDAO nDAO = new NotaDAO();
+        try {
+            for(Nota n :nDAO.buscar(listTurma.getSelectionModel().getSelectedItem().getIdTurma())){
+                listNota.add(n);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void selecionaNota(MouseEvent event) {
+        Nota n = table.getSelectionModel().getSelectedItem();
+        aluno.setText(n.getAluno().getNome());
+        n1.setText(String.valueOf(n.getNota1()));
+        n2.setText(String.valueOf(n.getNota2()));
+        n3.setText(String.valueOf(n.getNota3()));
+        
+    }
+
+    @FXML
+    private void atualizarNota(ActionEvent event) {
+        try {
+            NotaDAO nDAO = new NotaDAO();
+            Nota n = table.getSelectionModel().getSelectedItem();
+            n.setNota1(Double.parseDouble(n1.getText()));
+            n.setNota2(Double.parseDouble(n2.getText()));
+            n.setNota3(Double.parseDouble(n3.getText()));
+            
+            if(!nDAO.update(n)){
+                throw new Exception("Não foi possivel atualizar");
+            }
+            
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informação");
+            alert.setHeaderText("Nota atualizada com sucesso!");
+            alert.show();
+            
+            table.refresh();
+            
+        } catch (Exception e) {
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aviso");
+            alert.setHeaderText(e.getMessage());
+            alert.show();
+        }
     }
 
     

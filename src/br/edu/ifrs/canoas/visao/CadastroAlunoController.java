@@ -18,7 +18,10 @@ import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Responsavel;
 import br.edu.ifrs.canoas.modelo.Telefone;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,8 +101,12 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        listar();
+        try {
+            // TODO
+            listar();
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroAlunoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         radioButto();
         recuperar();
 
@@ -117,7 +124,7 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
         }
     }
 
-    private void listar() {
+    private void listar() throws SQLException {
         comboCurso.getItems().add(0, new Curso());
         comboCurso.getSelectionModel().select(0);
         for (Curso c : CursoDAO.getALL()) {
@@ -137,7 +144,7 @@ public class CadastroAlunoController implements Initializable, ViaCEPEvents {
     }
 
     @FXML
-    private void buscar(ActionEvent event) {
+    private void buscar(ActionEvent event) throws SQLException {
         ResponsavelDAO rDAO = new ResponsavelDAO();
         a = new Aluno();
         Responsavel r = rDAO.getOne(responsavelCpf.getText());

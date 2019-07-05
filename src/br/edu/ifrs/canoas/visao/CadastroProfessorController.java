@@ -14,6 +14,7 @@ import br.edu.ifrs.canoas.modelo.Endereco;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Telefone;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +76,7 @@ public class CadastroProfessorController implements Initializable, ViaCEPEvents 
     }
 
     @FXML
-    private void cadastrarProfessor(ActionEvent event) {
+    private void cadastrarProfessor(ActionEvent event) throws SQLException {
         ProfessorDAO pDAO = new ProfessorDAO();
         Professor p = new Professor();
         p.setMatricula(Long.parseLong(matricula.getText()));

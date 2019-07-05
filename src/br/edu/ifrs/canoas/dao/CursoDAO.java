@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class CursoDAO extends AbstractDAO<Curso>{
 
     @Override
-    public Curso getOne(Long id) {
+    public Curso getOne(Long id) throws SQLException {
         Conexao conexao = new Conexao();
         Connection con = conexao.getConexao();
         Curso cu = new Curso();
@@ -44,12 +44,15 @@ public class CursoDAO extends AbstractDAO<Curso>{
             System.out.println("Erro ao buscar Curso expecifico");
             e.printStackTrace();
             return null;
+        }finally{
+            conexao.desconecta();
+            con.close();
         }
         return cu;
     }
 
     @Override
-    public Long insert(Curso o) {
+    public Long insert(Curso o) throws SQLException {
         
         Conexao c = new Conexao();
         Connection con = c.getConexao();
@@ -66,6 +69,9 @@ public class CursoDAO extends AbstractDAO<Curso>{
             System.out.println("Deu erro Curso");
             e.printStackTrace();
             return -1L;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         
         return 1L;
@@ -150,7 +156,7 @@ public class CursoDAO extends AbstractDAO<Curso>{
         return cursos;
     }
     
-    public static ArrayList<Curso> getALL(){
+    public static ArrayList<Curso> getALL() throws SQLException{
         ArrayList<Curso> cursos = new ArrayList<>();
         
         Conexao conexao = new Conexao();
@@ -176,6 +182,9 @@ public class CursoDAO extends AbstractDAO<Curso>{
             System.out.println("Erro ao filtrar Curso");
             e.printStackTrace();
             return null;
+        }finally{
+            conexao.desconecta();
+            con.close();
         }
         return cursos;
     }

@@ -35,7 +35,7 @@ public class TurmaDAO extends AbstractDAO<Turma>{
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                t.setIdTurma(rs.getInt("idTurma"));
+                t.setIdTurma(rs.getLong("idTurma"));
                 t.setNome(rs.getString("turma"));
                 t.setProfessor(pDAO.getOne(rs.getLong("matriculaProfessor")));
                 Disciplina d = new Disciplina();
@@ -47,6 +47,9 @@ public class TurmaDAO extends AbstractDAO<Turma>{
             }
         } catch (SQLException e) {
             throw new SQLException("Erro ao buscar turma expecifica! \n"+e.getMessage());
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return t;
     }
@@ -83,8 +86,33 @@ public class TurmaDAO extends AbstractDAO<Turma>{
     }
 
     @Override
-    public ArrayList<Turma> buscar(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Turma> buscar(Long id) throws SQLException{
+        Conexao c = new Conexao();
+        Connection con = c.getConexao();
+        ArrayList<Turma> turmas = new ArrayList<>();
+        String sql = "SELECT IDTURMA,t.NOME turma, MATRICULAPROFESSOR,t.IDDISCIPLINA id, d.NOME disciplina, DESCRICAO"
+                + " FROM FacTurma t inner join FACDISCIPLINA d on d.IDDISCIPLINA = t.IDDISCIPLINA WHERE MATRICULAPROFESSOR = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Turma t = new Turma();
+                t.setIdTurma(rs.getLong("idTurma"));
+                t.setNome(rs.getString("turma"));
+                t.setProfessor(pDAO.getOne(rs.getLong("matriculaProfessor")));
+                Disciplina d = new Disciplina();
+                d.setIdDisciplina(rs.getLong("id"));
+                d.setNome(rs.getString("disciplina"));
+                d.setDescricao(rs.getString("descricao"));
+                d.mostrar(1);
+                t.setDisciplina(d);
+                turmas.add(t);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao buscar turma expecifica! \n"+e.getMessage());
+        }
+        return turmas;
     }
 
     @Override

@@ -51,11 +51,14 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         } catch (SQLException e) {
             
             throw new SQLException("Erro ao buscar Responsavel expecifico! \n"+e.getMessage());
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return r;
     }
     
-    public Responsavel getOne(String cpf) {
+    public Responsavel getOne(String cpf) throws SQLException {
         Responsavel r = new Responsavel();
         Conexao c = new Conexao();
         Connection con = c.getConexao();
@@ -82,12 +85,15 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
             System.out.println("Erro ao buscar responsaveis");
             e.printStackTrace();
             return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return r;
     }
 
     @Override
-    public Long insert(Responsavel o) {
+    public Long insert(Responsavel o) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "INSERT INTO FacResponsavel(idResponsavel,nome,rg,cpf,idTelefone,email,senha,acesso) "
@@ -119,6 +125,9 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
             System.out.println("Erro ao Cadastrar Responsavel");
             e.printStackTrace();
             return -1L;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return o.getIdResponsavel();
     }
@@ -148,7 +157,7 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public static ArrayList<Responsavel> getAll(){
+    public static ArrayList<Responsavel> getAll() throws SQLException{
         ArrayList<Responsavel> responsaveis = new ArrayList<>();
         Conexao c = new Conexao();
         Connection con = c.getConexao();
@@ -173,6 +182,9 @@ public class ResponsavelDAO extends AbstractDAO<Responsavel> {
         } catch (SQLException e) {
             System.out.println("Erro ao buscar responsaveis");
             e.printStackTrace();
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return responsaveis;
     }

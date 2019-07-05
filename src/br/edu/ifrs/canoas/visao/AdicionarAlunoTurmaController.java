@@ -6,7 +6,9 @@
 package br.edu.ifrs.canoas.visao;
 
 import br.edu.ifrs.canoas.controle.Logado;
+import br.edu.ifrs.canoas.dao.NotaDAO;
 import br.edu.ifrs.canoas.dao.TurmaAlunoDAO;
+import br.edu.ifrs.canoas.modelo.Nota;
 import br.edu.ifrs.canoas.modelo.Turma;
 import java.net.URL;
 import java.sql.SQLException;
@@ -52,10 +54,11 @@ public class AdicionarAlunoTurmaController implements Initializable {
         try {
             // TODO
             for (Turma t : tdDAO.buscar(Logado.getAluno().getCurso().getIdCurso())) {
+                t.mostrar(1);
                 listaTurma.getItems().add(t);
             }
         } catch (SQLException ex) {
-            System.out.println(String.valueOf(ex.getMessage()));
+            System.out.println(ex.getMessage());
         }
         matricula.setText(String.valueOf(Logado.getAluno().getMatricula()));
         nome.setText(Logado.getAluno().getNome());
@@ -82,6 +85,19 @@ public class AdicionarAlunoTurmaController implements Initializable {
                 if (b == sim) {
                     try {
                         tdDAO.insert(listaTurma.getSelectionModel().getSelectedItem(), Logado.getAluno());
+                        NotaDAO nDAO = new NotaDAO();
+                        Nota n = new Nota();
+                        n.setNota1(0);
+                        n.setNota2(0);
+                        n.setNota3(0);
+                        n.setAluno(Logado.getAluno());
+                        n.setTurma(listaTurma.getSelectionModel().getSelectedItem());
+                        nDAO.insert(n);
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Informação");
+                        alert.setHeaderText("Matricula na turma concluida");
+                        alert.show();
+
                     } catch (SQLException ex) {
                         alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Erro");
@@ -90,10 +106,6 @@ public class AdicionarAlunoTurmaController implements Initializable {
                     }
                 }
             });
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Informação");
-            alert.setHeaderText("Matricula na turma concluida");
-            alert.show();
 
         } catch (Exception e) {
             alert = new Alert(Alert.AlertType.WARNING);

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class TelefoneDAO extends AbstractDAO<Telefone>{
 
     @Override
-    public Telefone getOne(Long id) {
+    public Telefone getOne(Long id) throws SQLException {
         Telefone t = new Telefone();
         Conexao c = new Conexao();
         Connection con = c.getConexao();
@@ -38,12 +38,15 @@ public class TelefoneDAO extends AbstractDAO<Telefone>{
             System.out.println("Erro ao buscar teleone expecifico");
             e.printStackTrace();
             return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return t;
     }
 
     @Override
-    public Long insert(Telefone o) {
+    public Long insert(Telefone o) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         String sql = "INSERT INTO FacTelefone(idTelefone,tipo,numero) VALUES(facIdTelefone.nextval,?,?)";
@@ -64,6 +67,9 @@ public class TelefoneDAO extends AbstractDAO<Telefone>{
             System.out.println("Deu problema no telefone!");
             e.printStackTrace();
             return -1L;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return o.getIdTelefone();
     }

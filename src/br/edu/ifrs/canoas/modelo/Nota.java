@@ -14,20 +14,22 @@ public class Nota {
     private double nota1;
     private double nota2;
     private double nota3;
-    private Professor professor;
+    private Turma turma;
     private Aluno aluno;
 
     public Nota() {
     }
 
-    public Nota(int idNota, double nota1, double nota2, double nota3, Professor professor, Aluno aluno) {
+    public Nota(int idNota, double nota1, double nota2, double nota3, Turma turma, Aluno aluno) {
         this.idNota = idNota;
         this.nota1 = nota1;
         this.nota2 = nota2;
         this.nota3 = nota3;
-        this.professor = professor;
+        this.turma = turma;
         this.aluno = aluno;
     }
+
+    
     
     public int getIdNota() {
         return idNota;
@@ -61,12 +63,12 @@ public class Nota {
         this.nota3 = nota3;
     }
 
-    public Professor getProfessor() {
-        return professor;
+    public Turma getTurma() {
+        return turma;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 
     public Aluno getAluno() {
@@ -75,6 +77,10 @@ public class Nota {
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+    
+    public String getNome(){
+        return aluno.getNome();
     }
     
     public double getMedia(){

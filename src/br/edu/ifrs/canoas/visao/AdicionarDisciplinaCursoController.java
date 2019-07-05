@@ -11,7 +11,10 @@ import br.edu.ifrs.canoas.dao.DisciplinaDAO;
 import br.edu.ifrs.canoas.modelo.Curso;
 import br.edu.ifrs.canoas.modelo.Disciplina;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -68,23 +71,27 @@ public class AdicionarDisciplinaCursoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        ComboCurso.getItems().add("ID");
-        ComboCurso.getItems().add("Nome");
-        comboDisciplina.getItems().add("ID");
-        comboDisciplina.getItems().add("Nome");
-
-        ComboCurso.getSelectionModel().select(0);
-        comboDisciplina.getSelectionModel().select(0);
-        for (Curso c : CursoDAO.getALL()) {
-            //c.mostrar(1);
-            listCurso.getItems().add(c);
-
-        }
-
-        for (Disciplina d : DisciplinaDAO.getALL()) {
-            //d.mostrar(1);
-            listDisciplina.getItems().add(d);
+        try {
+            // TODO
+            ComboCurso.getItems().add("ID");
+            ComboCurso.getItems().add("Nome");
+            comboDisciplina.getItems().add("ID");
+            comboDisciplina.getItems().add("Nome");
+            
+            ComboCurso.getSelectionModel().select(0);
+            comboDisciplina.getSelectionModel().select(0);
+            for (Curso c : CursoDAO.getALL()) {
+                //c.mostrar(1);
+                listCurso.getItems().add(c);
+                
+            }
+            
+            for (Disciplina d : DisciplinaDAO.getALL()) {
+                //d.mostrar(1);
+                listDisciplina.getItems().add(d);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdicionarDisciplinaCursoController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -124,7 +131,7 @@ public class AdicionarDisciplinaCursoController implements Initializable {
     }
 
     @FXML
-    private void filtrarCurso(ActionEvent event) {
+    private void filtrarCurso(ActionEvent event) throws SQLException {
 
         CursoDAO cDAO = new CursoDAO();
         listCurso.getItems().clear();

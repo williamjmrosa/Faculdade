@@ -8,6 +8,7 @@ package br.edu.ifrs.canoas.visao;
 import br.edu.ifrs.canoas.dao.CursoDAO;
 import br.edu.ifrs.canoas.modelo.Curso;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,7 +40,7 @@ public class CadastroCursoController implements Initializable {
     }    
 
     @FXML
-    private void cadastrarCurso(ActionEvent event) {
+    private void cadastrarCurso(ActionEvent event) throws SQLException {
         CursoDAO cDAO = new CursoDAO();
         
         Curso c = new Curso();

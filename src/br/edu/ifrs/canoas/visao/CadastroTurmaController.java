@@ -12,7 +12,10 @@ import br.edu.ifrs.canoas.modelo.Disciplina;
 import br.edu.ifrs.canoas.modelo.Professor;
 import br.edu.ifrs.canoas.modelo.Turma;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -55,18 +58,22 @@ public class CadastroTurmaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        for (Disciplina d : DisciplinaDAO.getALL()) {
-            listDis.getItems().add(d);
-        }
-
-        for (Professor p : ProfessorDAO.getAll()) {
-            listProf.getItems().add(p);
+        try {
+            // TODO
+            for (Disciplina d : DisciplinaDAO.getALL()) {
+                listDis.getItems().add(d);
+            }
+            
+            for (Professor p : ProfessorDAO.getAll()) {
+                listProf.getItems().add(p);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroTurmaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
-    private void pesquisarProfessor(ActionEvent event) {
+    private void pesquisarProfessor(ActionEvent event) throws SQLException {
         listProf.getItems().clear();
         if (matriculaPesquisa.getText().isEmpty()) {
             for (Professor p : ProfessorDAO.getAll()) {

@@ -26,7 +26,7 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
     private static EnderecoDAO eDAO = new EnderecoDAO();
     
     @Override
-    public Professor getOne(Long id) {
+    public Professor getOne(Long id) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         Professor p = new Professor();
@@ -56,12 +56,15 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
             System.out.println("Erro ao filtrar professor");
             e.printStackTrace();
             return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return p;
     }
 
     @Override
-    public Long insert(Professor o) {
+    public Long insert(Professor o) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         
@@ -95,6 +98,9 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
             System.out.println("Deu problema Professor");
             e.printStackTrace();
             return -1L;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return o.getMatricula();
     }
@@ -115,7 +121,7 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
     }
 
     @Override
-    public ArrayList<Professor> filtrar(Long id) {
+    public ArrayList<Professor> filtrar(Long id) throws SQLException {
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         ArrayList<Professor> professores = new ArrayList<>();
@@ -145,6 +151,9 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
             System.out.println("Erro ao filtrar professor");
             e.printStackTrace();
             return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return professores;
     }
@@ -154,7 +163,7 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public static ArrayList<Professor> getAll(){
+    public static ArrayList<Professor> getAll() throws SQLException{
         Conexao c = new Conexao();
         Connection con = c.getConexao();
         ArrayList<Professor> professores = new ArrayList<>();
@@ -183,6 +192,9 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
             System.out.println("Erro ao mostrar todos os professores");
             e.printStackTrace();
             return null;
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return professores;
     }
@@ -217,6 +229,9 @@ public class ProfessorDAO extends AbstractDAO<Professor> {
         } catch (SQLException e) {
             throw new SQLException("Erro no login: "+e.getMessage());
             
+        }finally{
+            c.desconecta();
+            con.close();
         }
         return false;
         
